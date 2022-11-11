@@ -3,6 +3,7 @@ from tkinter import ttk
 from PIL import Image, ImageTk
 from face_reg import Face_Registration
 
+
 class Attendance_System:
     def __init__(self, root):
         self.root=root

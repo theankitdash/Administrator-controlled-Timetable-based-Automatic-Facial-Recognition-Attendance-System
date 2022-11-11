@@ -4,6 +4,8 @@ from PIL import Image, ImageTk
 from tkinter import messagebox
 import mysql.connector
 import cv2
+import os
+import numpy as np
 
 class Face_Registration:
     def __init__(self, root):
@@ -19,11 +21,11 @@ class Face_Registration:
 
 
         #Bg Image
-        img=Image.open(r"C:\Users\ankit\Desktop\New folder\itersoa.jpg")
-        img=img.resize((500,700),Image.ANTIALIAS)
-        self.photoimg=ImageTk.PhotoImage(img)
+        bg_img=Image.open(r"C:\Users\ankit\Desktop\New folder\itersoa.jpg")
+        bg_img=bg_img.resize((500,700),Image.ANTIALIAS)
+        self.photobg_img=ImageTk.PhotoImage(bg_img)
 
-        BgImage = Label(self.root, image=self.photoimg)
+        BgImage = Label(self.root, image=self.photobg_img)
         BgImage.place(x=0,y=0,width=500,height=700)
 
         title = Label(BgImage, text="Facial Registration", font=("Times new roman", 25,"bold"),bg="white")
@@ -98,8 +100,8 @@ class Face_Registration:
         take_photo_bt=Button(Bt_frame1,text="Take Photo", command=self.data_generate, width=21,font=("times new roman", 12,"bold"),bg="white")
         take_photo_bt.grid(row=0,column=0)
                 
-        update_photo_bt=Button(Bt_frame1,text="Update Photo", width=21,font=("times new roman", 12,"bold"),bg="white")
-        update_photo_bt.grid(row=0,column=1)
+        train_photo_bt=Button(Bt_frame1,text="Train Photo", command=self.train_classifier,width=21,font=("times new roman", 12,"bold"),bg="white")
+        train_photo_bt.grid(row=0,column=1)
 
 
 
@@ -214,12 +216,12 @@ class Face_Registration:
                     conn = mysql.connector.connect(host='localhost', username='root', password='Chiku@3037', database='attendance-system')
                     my_cursor = conn.cursor() 
                     my_cursor.execute("Update student set Name=%s, Semester=%s, Branch=%s, PhotoSample=%s where Roll_No=%s", (
-                                                                                            self.var_Name.get(),
-                                                                                            self.var_Sem.get(),
-                                                                                            self.var_branch.get(),
-                                                                                            self.var_radio1.get(),
-                                                                                            self.var_Roll.get()
-                                                                                        ))
+                                                                                                                    self.var_Name.get(),
+                                                                                                                    self.var_Sem.get(),
+                                                                                                                    self.var_branch.get(),
+                                                                                                                    self.var_radio1.get(),
+                                                                                                                    self.var_Roll.get()
+                                                                                                                ))
                 else:
                     if not Update:
                         return
@@ -261,66 +263,92 @@ class Face_Registration:
         self.var_branch.set("Select Branch")
         self.var_radio1.set("")
 
-
     #Photo Sample
     def data_generate(self):
+        
         if self.var_branch.get()=="Select branch" or self.var_Name.get()=="" or self.var_Roll.get()=="":
-            messagebox.showerror("Error", "All fields are required")
+            messagebox.showerror("Error", "All fields are required", parent=self.root)
         else:
             try:
                 conn = mysql.connector.connect(host='localhost', username='root', password='Chiku@3037', database='attendance-system')
                 my_cursor = conn.cursor() 
-                my_cursor.execute("Select * from student")
-                result=my_cursor.fetchall()
-                id=0
-                for x in result:
-                    id+=1
-                my_cursor.execute("Update student set Name=%s, Semester=%s, Branch=%s, PhotoSample=%s where Roll_No=%s", (
-                                                                                            self.var_Name.get(),
-                                                                                            self.var_Sem.get(),
-                                                                                            self.var_branch.get(),
-                                                                                            self.var_radio1.get(),
-                                                                                            self.var_Roll.get()==id+1
-                                                                                        ))
+                my_cursor.execute("select * from student")
+                result=my_cursor.fetchall()  
+                
+                
+
+                sql="""update student set Name=%s, Semester=%s, Branch=%s, PhotoSample=%s where Roll_No=%s"""
+                
+                val= (
+                        self.var_Name.get(),
+                        self.var_Sem.get(),
+                        self.var_branch.get(),
+                        self.var_radio1.get(),
+
+                        self.var_Roll.get()
+                    )
+                my_cursor.execute(sql, val)  
+            
                 conn.commit()
                 self.fetch_data()
                 self.reset_data()  
                 conn.close()
 
-                face_classifier=cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
-
-                def face_read(img):
-                    gray=cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-                    faces=face_classifier.detectMultiScale(gray,1.3,5)
-                    #scaling factor =1.3
-                    #Minimum Neighbour = 5
-
-                    for (x,y,w,h) in faces:
-                        face_read=img[y:y+h,x:x+w]
-                        return face_read
-
-                cap=cv2.VideoCapture(0)
-                img_id=0
-
-                while True:
-                    ret, my_frame=cap.read()
-                    if face_read(my_frame) is not None:
-                        img_id+=1
-                        face=cv2.resize(face_read(my_frame),(450,450)) 
-                        face=cv2.cvtColor(face, cv2.COLOR_BGR2GRAY)  
-                        file_path = "data/user."+str(id)+"."+str(img_id)+".jpg"
-                        cv2.imwrite(file_path, face)
-                        cv2.putText(face, str(img_id), (50,50),cv2.FONT_HERSHEY_COMPLEX, 2,(0,255,0),2)
-                        cv2.imshow("Face Scanning", face)
-
-                    if cv2.waitKey(1)==13 or int(img_id)==100:
+                cam = cv2.VideoCapture(0)
+                harcascadePath = "haarcascade_frontalface_default.xml"
+                face_classifier = detector = cv2.CascadeClassifier(harcascadePath)
+                sampleNum = 0
+            
+                while(True):
+                    ret, img = cam.read()
+                    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+                    faces = detector.detectMultiScale(gray, 1.3, 5, minSize=(30,30),flags = cv2.CASCADE_SCALE_IMAGE)
+                    for(x,y,w,h) in faces:
+                        cv2.rectangle(img, (x, y), (x+w, y+h), (10, 159, 255), 2)
+                        sampleNum = sampleNum+1
+                        #saving the captured face in the dataset folder TrainingImage
+                        cv2.imwrite("data/image." + str(id) + '.' +str(sampleNum) + ".jpg", gray[y:y+h, x:x+w])
+                        cv2.imshow('frame', img)
+                    if cv2.waitKey(30) & 0xFF == ord('q'):
                         break
-                cap.release()
+                    elif sampleNum > 30:
+                        break
+                cam.release()
                 cv2.destroyAllWindows()
+                messagebox.showinfo("Result","Generating data set successfully")
+                        
 
-                messagebox.showinfo("Result", "Generating data set completed!")    
             except Exception as es:
-                messagebox.showerror("Error",f"Due to:{str(es)}") 
+                print(es)
+                #messagebox.showerror("Error",f"Due to: {str(es)}",parent=self.root)
+
+
+
+    #train data
+    def train_classifier(self):
+        data_dir=("data")
+        path=[os.path.join(data_dir,file) for file in os.listdir(data_dir)]
+
+        faces=[]
+        ids=[]
+
+        for image in path:
+            img=Image.open(image).convert('L')  #gray scale image
+            imageNp=np.array(img,'uint8')
+            id=int(os.path.split(image)[1].split('.')[1])
+
+            faces.append(imageNp)
+            ids.append(id)
+            cv2.imshow("Training",imageNp)
+            cv2.waitKey(1)==13
+        ids=np.array(ids)
+
+        #train classifier
+        clf=cv2.face.LBPHFaceRecognizer_create()
+        clf.train(faces,ids)
+        clf.write("classifier.xml")
+        cv2.destroyAllWindows()
+        messagebox.showinfo("Result","Training datasets completed!!")
 
 if __name__ == "__main__":
     root=Tk()  
