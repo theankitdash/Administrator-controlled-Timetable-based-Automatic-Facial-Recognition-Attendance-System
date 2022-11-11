@@ -118,8 +118,8 @@ class Face_Registration:
         search_combo.current(0)
         search_combo.grid(row=0, column=1, padx=2, pady=10, sticky=W)
 
-        Roll_Entry=Entry(Search_frame, width=11,font=("times new roman",12,"bold"),bg="white")
-        Roll_Entry.grid(row=0, column=2, padx=2, pady=10, sticky=W)
+        roll_Entry=Entry(Search_frame, width=11,font=("times new roman",12,"bold"),bg="white")
+        roll_Entry.grid(row=0, column=2, padx=2, pady=10, sticky=W)
 
         search_bt=Button(Search_frame,text="Search", width=6,font=("times new roman", 11,"bold"),bg="white")
         search_bt.grid(row=0,column=3, padx=2)
@@ -265,6 +265,7 @@ class Face_Registration:
 
     #Photo Sample
     def data_generate(self):
+        id = (self.var_Roll.get())
         
         if self.var_branch.get()=="Select branch" or self.var_Name.get()=="" or self.var_Roll.get()=="":
             messagebox.showerror("Error", "All fields are required", parent=self.root)
@@ -274,7 +275,7 @@ class Face_Registration:
                 my_cursor = conn.cursor() 
                 my_cursor.execute("select * from student")
                 result=my_cursor.fetchall()  
-                
+
                 
 
                 sql="""update student set Name=%s, Semester=%s, Branch=%s, PhotoSample=%s where Roll_No=%s"""
@@ -294,28 +295,45 @@ class Face_Registration:
                 self.reset_data()  
                 conn.close()
 
-                cam = cv2.VideoCapture(0)
-                harcascadePath = "haarcascade_frontalface_default.xml"
-                face_classifier = detector = cv2.CascadeClassifier(harcascadePath)
-                sampleNum = 0
-            
-                while(True):
-                    ret, img = cam.read()
-                    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-                    faces = detector.detectMultiScale(gray, 1.3, 5, minSize=(30,30),flags = cv2.CASCADE_SCALE_IMAGE)
-                    for(x,y,w,h) in faces:
-                        cv2.rectangle(img, (x, y), (x+w, y+h), (10, 159, 255), 2)
-                        sampleNum = sampleNum+1
-                        #saving the captured face in the dataset folder TrainingImage
-                        cv2.imwrite("data/image." + str(id) + '.' +str(sampleNum) + ".jpg", gray[y:y+h, x:x+w])
-                        cv2.imshow('frame', img)
-                    if cv2.waitKey(30) & 0xFF == ord('q'):
-                        break
-                    elif sampleNum > 30:
-                        break
-                cam.release()
-                cv2.destroyAllWindows()
-                messagebox.showinfo("Result","Generating data set successfully")
+                def is_number(s):
+                    try:
+                        float(s)
+                        return True
+                    except ValueError:
+                        pass
+                
+                    try:
+                        import unicodedata
+                        unicodedata.numeric(s)
+                        return True
+                    except (TypeError, ValueError):
+                        pass
+                
+                    return False
+
+                if(is_number(id)):
+                    cam = cv2.VideoCapture(0)
+                    harcascadePath = "haarcascade_frontalface_default.xml"
+                    face_classifier = detector = cv2.CascadeClassifier(harcascadePath)
+                    sampleNum = 0
+                    
+                    while(True):
+                        ret, img = cam.read()
+                        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+                        faces = detector.detectMultiScale(gray, 1.3, 5, minSize=(30,30),flags = cv2.CASCADE_SCALE_IMAGE)
+                        for(x,y,w,h) in faces:
+                            cv2.rectangle(img, (x, y), (x+w, y+h), (10, 159, 255), 2)
+                            sampleNum = sampleNum+1
+                            #saving the captured face in the dataset folder TrainingImage
+                            cv2.imwrite("data/image." + id + '.' +str(sampleNum) + ".jpg", gray[y:y+h, x:x+w])
+                            cv2.imshow('frame', img)
+                        if cv2.waitKey(30) & 0xFF == ord('q'):
+                            break
+                        elif sampleNum > 30:
+                            break
+                    cam.release()
+                    cv2.destroyAllWindows()
+                    messagebox.showinfo("Result","Generating data set successfully")
                         
 
             except Exception as es:
@@ -335,7 +353,7 @@ class Face_Registration:
         for image in path:
             img=Image.open(image).convert('L')  #gray scale image
             imageNp=np.array(img,'uint8')
-            id=int(os.path.split(image)[1].split('.')[1])
+            id=int(os.path.split(image)[-1].split('.')[1])
 
             faces.append(imageNp)
             ids.append(id)
