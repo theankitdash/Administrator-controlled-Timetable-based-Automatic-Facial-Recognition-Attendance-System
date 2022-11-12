@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import ttk
 from PIL import Image, ImageTk
 from face_reg import Face_Registration
+from attendance_reg import Attendance_Registration
 
 
 class Attendance_System:
@@ -37,16 +38,20 @@ class Attendance_System:
         Face_Det = Face_Det.resize((200,200), Image.ANTIALIAS)
         self.photoFace_Det=ImageTk.PhotoImage(Face_Det)
 
-        bt = Button(BgImage,image=self.photoFace_Det, cursor="hand2")
+        bt = Button(BgImage,image=self.photoFace_Det, command=self.attendance_details,cursor="hand2")
         bt.place(x=150,y=400,width=200,height=200)
 
-        bt_1 = Button(BgImage, text= "Attendance", cursor="hand2",font=("times new roman",15,"bold"),fg="blue")
+        bt_1 = Button(BgImage, text= "Attendance", command=self.attendance_details,cursor="hand2",font=("times new roman",15,"bold"),fg="blue")
         bt_1.place(x=150,y=600, width=200, height=40)
 
 
     def face_details(self):
         self.new_window=Toplevel(self.root)
         self.app=Face_Registration(self.new_window)
+
+    def attendance_details(self):
+        self.new_window=Toplevel(self.root)
+        self.app=Attendance_Registration(self.new_window)    
 
 
 
