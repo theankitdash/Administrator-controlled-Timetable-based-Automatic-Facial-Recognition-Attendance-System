@@ -48,18 +48,17 @@ class Attendance_Registration:
 
 
 
-########################################  face recognition  #################3
-
+    #Face recognition  
     def recognize_attendance(self):
         recognizer = cv2.face.LBPHFaceRecognizer_create()  
-        #recognizer.read("TrainingImageLabel"+os.sep+"Trainner.yml")
+        
         recognizer.read('classifier.xml')
         harcascadePath = "haarcascade_frontalface_default.xml"
         faceCascade = cv2.CascadeClassifier(harcascadePath)
         font = cv2.FONT_HERSHEY_SIMPLEX
         
 
-        # start realtime video capture
+        #Start realtime video capture
         cam = cv2.VideoCapture(0, cv2.CAP_DSHOW)
         cam.set(3, 640) 
         cam.set(4, 480) 
@@ -69,8 +68,7 @@ class Attendance_Registration:
         while True:
             ret, im = cam.read()
             gray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
-            faces = faceCascade.detectMultiScale(gray, 1.2, 5,
-            minSize = (int(minW), int(minH)),flags = cv2.CASCADE_SCALE_IMAGE)
+            faces = faceCascade.detectMultiScale(gray, 1.2, 5, minSize = (int(minW), int(minH)),flags = cv2.CASCADE_SCALE_IMAGE)
             for(x, y, w, h) in faces:
                 cv2.rectangle(im, (x, y), (x+w, y+h), (10, 159, 255), 2)
                 id,predict=recognizer.predict(gray[y:y+h,x:x+w])
@@ -83,10 +81,6 @@ class Attendance_Registration:
                 n=my_cursor.fetchone()
                 n="+".join(n)
 
-                # my_cursor.execute("select s from student where Student_id="+str(id))
-                # r=my_cursor.fetchone()
-                # r="+".join(r)
-
                 my_cursor.execute("select Branch from student where Roll_No="+str(id))
                 d=my_cursor.fetchone()
                 d="+".join(d)
@@ -96,7 +90,7 @@ class Attendance_Registration:
                 i=my_cursor.fetchone()
                 i="+".join(i)
                         
-                if confidence>77:
+                if confidence>50:
                     cv2.putText(im,f"Semester:{i}",(x,y-55),cv2.FONT_HERSHEY_COMPLEX,0.8,(255,255,255),3)
                     cv2.putText(im,f"Name:{n}",(x,y-30),cv2.FONT_HERSHEY_COMPLEX,0.8,(255,255,255),3)
                     cv2.putText(im,f"Branch:{d}",(x,y-5),cv2.FONT_HERSHEY_COMPLEX,0.8,(255,255,255),3)

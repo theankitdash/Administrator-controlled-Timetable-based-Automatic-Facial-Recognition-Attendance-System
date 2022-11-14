@@ -326,7 +326,7 @@ class Face_Registration:
                             sampleNum = sampleNum+1
                             #saving the captured face in the dataset folder TrainingImage
                             cv2.imwrite("data/image." + id + '.' +str(sampleNum) + ".jpg", gray[y:y+h, x:x+w])
-                            cv2.imshow('frame', img)
+                            cv2.imshow('Scanning Face', img)
                         if cv2.waitKey(30) & 0xFF == ord('q'):
                             break
                         elif sampleNum > 30:
