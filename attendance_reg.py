@@ -6,6 +6,9 @@ import mysql.connector
 import cv2
 import os
 import numpy as np
+from time import strftime
+from datetime import datetime
+
 
 class Attendance_Registration:
     def __init__(self, root):
@@ -74,7 +77,7 @@ class Attendance_Registration:
                 id,predict=recognizer.predict(gray[y:y+h,x:x+w])
                 confidence=int((100*(1-predict/300)))
 
-                conn = mysql.connector.connect(host='localhost', username='root', password='Chiku@3037', database='attendance-system')
+                conn = mysql.connector.connect(host='localhost', username='root', password='Chiku@3037', database='attendance-system', charset='utf8')
                 my_cursor = conn.cursor()
 
                 my_cursor.execute("select Name from student where Roll_No="+str(id))
