@@ -21,4 +21,3 @@ finally:
         print("MySQL connection is closed")
 #print("Connection successfully created!")
 
-str(row)

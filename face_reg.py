@@ -6,6 +6,7 @@ import mysql.connector
 import cv2
 import os
 import numpy as np
+import csv
 
 class Face_Registration:
     def __init__(self, root):
@@ -266,6 +267,7 @@ class Face_Registration:
     #Photo Sample
     def data_generate(self):
         id = (self.var_Roll.get())
+        name = (self.var_Name.get())
         
         if self.var_branch.get()=="Select branch" or self.var_Name.get()=="" or self.var_Roll.get()=="":
             messagebox.showerror("Error", "All fields are required", parent=self.root)
@@ -326,7 +328,7 @@ class Face_Registration:
                             cv2.rectangle(img, (x, y), (x+w, y+h), (10, 159, 255), 2)
                             sampleNum = sampleNum+1
                             #saving the captured face in the dataset folder TrainingImage
-                            cv2.imwrite("data/image." + id + '.' +str(sampleNum) + ".jpg", gray[y:y+h, x:x+w])
+                            cv2.imwrite("data\ "+name + "."+id + '.' + str(sampleNum) + ".jpg", gray[y:y + h, x:x + w])
                             cv2.imshow('Scanning Face', img)
 
                         if cv2.waitKey(30) & 0xFF == ord('q'):
@@ -341,7 +343,15 @@ class Face_Registration:
 
             except Exception as es:
                 print(es)
-                #messagebox.showerror("Error",f"Due to: {str(es)}",parent=self.root)
+                messagebox.showerror("Error",f"Due to: {str(es)}",parent=self.root)
+            row = [id, name]
+            with open(
+                "studentdetails.csv",
+                "a+",
+            ) as csvFile:
+                writer = csv.writer(csvFile, delimiter=",")
+                writer.writerow(row)
+                csvFile.close()    
 
 
 
