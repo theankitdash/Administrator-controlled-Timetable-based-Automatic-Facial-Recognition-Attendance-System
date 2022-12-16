@@ -8,19 +8,19 @@ from attendance_reg import Attendance_Registration
 class Attendance_System:
     def __init__(self, root):
         self.root=root
-        self.root.geometry("500x700+0+0")
+        self.root.geometry("1280x720+0+0")
         self.root.title("Attendance System")
 
         #Bg Image
         img=Image.open(r"C:\Users\ankit\Desktop\New folder\itersoa.jpg")
-        img=img.resize((500,700),Image.ANTIALIAS)
+        img=img.resize((1280,720),Image.ANTIALIAS)
         self.photoimg=ImageTk.PhotoImage(img)
 
         BgImage = Label(self.root, image=self.photoimg)
-        BgImage.place(x=0,y=0,width=500,height=700)
+        BgImage.place(x=0,y=0,width=1280,height=720)
 
         title = Label(BgImage, text="ATTENDANCE SOFTWARE", font=("Times new roman", 25,"bold"),bg="white")
-        title.place(x=0,y=0,width=500,height=45)
+        title.place(x=0,y=0,width=1280,height=45)
         
         #Registration Button
         Face_Reg = Image.open(r"C:\Users\ankit\Desktop\New folder\Face.jpg")
@@ -28,10 +28,10 @@ class Attendance_System:
         self.photoFace_Reg=ImageTk.PhotoImage(Face_Reg)
 
         bt = Button(BgImage,image=self.photoFace_Reg, command=self.face_details, cursor="hand2")
-        bt.place(x=150,y=100,width=200,height=200)
+        bt.place(x=250,y=250,width=200,height=200)
 
         bt_1 = Button(BgImage, text= "Face Registration",command=self.face_details, cursor="hand2",font=("times new roman",15,"bold"),fg="blue")
-        bt_1.place(x=150,y=300, width=200, height=40)
+        bt_1.place(x=250,y=450, width=200, height=40)
 
         #Detection Button
         Face_Det = Image.open(r"C:\Users\ankit\Desktop\New folder\face_scan.jpg")
@@ -39,10 +39,10 @@ class Attendance_System:
         self.photoFace_Det=ImageTk.PhotoImage(Face_Det)
 
         bt = Button(BgImage,image=self.photoFace_Det, command=self.attendance_details,cursor="hand2")
-        bt.place(x=150,y=400,width=200,height=200)
+        bt.place(x=700,y=250,width=200,height=200)
 
         bt_1 = Button(BgImage, text= "Attendance", command=self.attendance_details,cursor="hand2",font=("times new roman",15,"bold"),fg="blue")
-        bt_1.place(x=150,y=600, width=200, height=40)
+        bt_1.place(x=700,y=450, width=200, height=40)
 
 
     def face_details(self):

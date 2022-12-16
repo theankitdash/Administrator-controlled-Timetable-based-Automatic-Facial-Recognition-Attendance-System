@@ -11,7 +11,7 @@ import csv
 class Face_Registration:
     def __init__(self, root):
         self.root=root
-        self.root.geometry("500x700+0+0")
+        self.root.geometry("1280x720+0+0")
         self.root.title("Attendance System")
 
         #variables
@@ -23,17 +23,17 @@ class Face_Registration:
 
         #Bg Image
         bg_img=Image.open(r"C:\Users\ankit\Desktop\New folder\itersoa.jpg")
-        bg_img=bg_img.resize((500,700),Image.ANTIALIAS)
+        bg_img=bg_img.resize((1280,720),Image.ANTIALIAS)
         self.photobg_img=ImageTk.PhotoImage(bg_img)
 
         BgImage = Label(self.root, image=self.photobg_img)
-        BgImage.place(x=0,y=0,width=500,height=700)
+        BgImage.place(x=0,y=0,width=1280,height=720)
 
         title = Label(BgImage, text="Facial Registration", font=("Times new roman", 25,"bold"),bg="white")
-        title.place(x=0,y=0,width=500,height=45)
+        title.place(x=0,y=0,width=1280,height=45)
 
         main_frame = Frame(BgImage, bd=2, bg="white")
-        main_frame.place(x=20,y=50,width=450, height = 650)
+        main_frame.place(x=20,y=50,width=1240, height = 650)
 
         #Details Frame
         det_frame=LabelFrame(main_frame, bd=2, relief=RIDGE, text="Student Details", font=("times new roman",12,"bold"), bg="white")
@@ -108,7 +108,7 @@ class Face_Registration:
 
         #Details Fetch Frame
         Search_frame=LabelFrame(main_frame, bd=2, relief=RIDGE, text="Search System", font=("times new roman",12,"bold"), bg="white")
-        Search_frame.place(x=10, y=320, width=400, height=70)
+        Search_frame.place(x=450, y=10, width=400, height=70)
 
         #Search
         search_label=Label(Search_frame,text="Search by:", font=("times new roman", 12,"bold"),bg="blue")
@@ -130,7 +130,7 @@ class Face_Registration:
 
         #Student details frame
         table_frame=Frame(main_frame, bd=2, bg="white", relief=RIDGE)
-        table_frame.place(x=10, y=400, width=400, height=230)
+        table_frame.place(x=450, y=100, width=400, height=230)
 
         
         scroll_y=ttk.Scrollbar(table_frame, orient=VERTICAL)
@@ -384,4 +384,4 @@ class Face_Registration:
 if __name__ == "__main__":
     root=Tk()  
     obj=Face_Registration(root)
-    root.mainloop()        
+    root.mainloop()  
