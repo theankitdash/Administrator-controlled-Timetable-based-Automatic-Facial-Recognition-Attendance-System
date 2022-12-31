@@ -1,232 +1,204 @@
 from tkinter import *
 from tkinter import ttk
-from tkinter import Message, Text
+from PIL import Image, ImageTk
+from tkinter import messagebox
+import mysql.connector
 import cv2
 import os
-import shutil
 import csv
 import numpy as np
-from PIL import Image, ImageTk
 import pandas as pd
-import datetime
 import time
-from pathlib import Path
- 
-window = Tk()
-window.title("Face_Recogniser")
-window.configure(background='white')
-window.grid_rowconfigure(0, weight=1)
-window.grid_columnconfigure(0, weight=1)
-message = Label(
-    window, text="Face-Recognition-System",
-    bg="green", fg="white", width=50,
-    height=3, font=('times', 30, 'bold'))
- 
-message.place(x=200, y=20)
- 
-lbl = Label(window, text="No.", width=20, height=2, fg="green", bg="white", font=('times', 15, ' bold '))
-lbl.place(x=400, y=200)
- 
-txt = Entry(window, width=20, bg="white", fg="green", font=('times', 15, ' bold '))
-txt.place(x=700, y=215)
- 
-lbl2 = Label(window, text="Name", width=20, fg="green", bg="white",height=2, font=('times', 15, ' bold '))
-lbl2.place(x=400, y=300)
- 
-txt2 = Entry(window, width=20, bg="white", fg="green", font=('times', 15, ' bold '))
-txt2.place(x=700, y=315)
- 
-# The function below is used for checking
-# whether the text below is number or not ?
- 
- 
-def is_number(s):
-    try:
-        float(s)
-        return True
-    except ValueError:
-        pass
- 
-    try:
-        import unicodedata
-        unicodedata.numeric(s)
-        return True
-    except (TypeError, ValueError):
-        pass
- 
-    return False
-# Take Images is a function used for creating
-# the sample of the images which is used for
-# training the model. It takes 60 Images of
-# every new user.
- 
- 
-def TakeImages():
- 
-    # Both ID and Name is used for recognising the Image
-    Id = (txt.get())
-    name = (txt2.get())
- 
-    # Checking if the ID is numeric and name is Alphabetical
-    if(is_number(Id) and name.isalpha()):
-        # Opening the primary camera if you want to access
-        # the secondary camera you can mention the number
-        # as 1 inside the parenthesis
+import datetime
+from glob import glob
+
+trainedimages = ("classifier.xml")
+harcascadePath = "haarcascade_frontalface_default.xml"
+attendance_path = "C:\\Users\\ankit\\Desktop\\New folder\\Subjects"
+
+class Attendance_Registration:
+    def __init__(self, root):
+        self.root=root
+        self.root.geometry("1280x720+0+0")
+        self.root.title("Attendance Registration")
+
+        self.var_Sub=StringVar()
+
+        #Bg Image
+        img=Image.open(r"C:\Users\ankit\Desktop\New folder\itersoa.jpg")
+        img=img.resize((1280,720),Image.ANTIALIAS)
+        self.photoimg=ImageTk.PhotoImage(img)
+
+        BgImage = Label(self.root, image=self.photoimg)
+        BgImage.place(x=0,y=0,width=1280,height=720)
+
+        title = Label(BgImage, text="ATTENDANCE REGISTRATION", font=("Times new roman", 25,"bold"),bg="white")
+        title.place(x=0,y=0,width=1280,height=45)
+
+        sub_combo=ttk.Combobox(BgImage, textvariable=self.var_Sub, font=("times new roman",15,"bold"), state="readonly")
+        sub_combo["values"]=("Select Subject", "PSAD-2", "UHV", "ESPUA", "PSH", "PSM", "ECES")
+        sub_combo.current(0)
+        sub_combo.place(x=500,y=200,width=250,height=50)
+
+        bt=Button(BgImage,text="RECOGNIZE",command=self.FillAttendance,cursor="hand2",font=("times new roman",18,"bold"),bg="darkgreen",fg="white")
+        bt.place(x=500,y=270,width=250,height=50)
+
+        bt1=Button(BgImage,text="VIEW ATTENDANCE",command=self.calculate_attendance,cursor="hand2",font=("times new roman",18,"bold"),bg="darkgreen",fg="white")
+        bt1.place(x=500,y=350,width=250,height=50)
+
+    
+    def FillAttendance(self):
+        sub = self.var_Sub.get()
+        now = time.time()
+        future = now + 7
+
+        recognizer = cv2.face.LBPHFaceRecognizer_create()
+        recognizer.read(trainedimages)
+
+        faceCascade = cv2.CascadeClassifier(harcascadePath)   
+        df = pd.read_csv("studentdetails.csv")
         cam = cv2.VideoCapture(0)
-        # Specifying the path to haarcascade file
-        harcascadePath = "haarcascade_frontalface_default.xml"
-        # Creating the classier based on the haarcascade file.
-        detector = cv2.CascadeClassifier(harcascadePath)
-        # Initializing the sample number(No. of images) as 0
-        sampleNum = 0
-        while(True):
-            # Reading the video captures by camera frame by frame
-            ret, img = cam.read()
-            # Converting the image into grayscale as most of
-            # the the processing is done in gray scale format
-            gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
- 
-            # It converts the images in different sizes
-            # (decreases by 1.3 times) and 5 specifies the
-            # number of times scaling happens
-            faces = detector.detectMultiScale(gray, 1.3, 5)
- 
-            # For creating a rectangle around the image
+        font = cv2.FONT_HERSHEY_SIMPLEX
+        col_names = ["Roll No", "Name"]
+        attendance = pd.DataFrame(columns=col_names)
+        while True:
+            ___, im = cam.read()
+            gray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
+            faces = faceCascade.detectMultiScale(gray, 1.2, 5)
             for (x, y, w, h) in faces:
-                # Specifying the coordinates of the image as well
-                # as color and thickness of the rectangle.
-                # incrementing sample number for each image
-                cv2.rectangle(img, (x, y), (
-                    x + w, y + h), (255, 0, 0), 2)
-                sampleNum = sampleNum + 1
-                # saving the captured face in the dataset folder
-                # TrainingImage as the image needs to be trained
-                # are saved in this folder
-                cv2.imwrite(
-                    "data\ "+name + "."+Id + '.' + str(
-                        sampleNum) + ".jpg", gray[y:y + h, x:x + w])
-                # display the frame that has been captured
-                # and drawn rectangle around it.
-                cv2.imshow('frame', img)
-            # wait for 100 milliseconds
-            if cv2.waitKey(100) & 0xFF == ord('q'):
+                global Id
+
+                Id, predict = recognizer.predict(gray[y : y + h, x : x + w])
+                confidence=int((100*(1-predict/300)))
+
+                conn = mysql.connector.connect(host='localhost', username='root', password='Chiku@3037', database='attendance-system', charset='utf8')
+                my_cursor = conn.cursor()
+
+                my_cursor.execute("select Name from student where Roll_No="+str(Id))
+                n=my_cursor.fetchone()
+                n="+".join(n)
+
+                my_cursor.execute("select Branch from student where Roll_No="+str(Id))
+                d=my_cursor.fetchone()
+                d="+".join(d)
+
+
+                my_cursor.execute("select Semester from student where Roll_No="+str(Id))
+                i=my_cursor.fetchone()
+                i="+".join(i)
+                        
+                if confidence>50:
+                    global Subject
+                    global aa
+                    global date
+                    global timeStamp
+                    Subject = self.var_Sub.get()
+                    ts = time.time()
+                    date = datetime.datetime.fromtimestamp(ts).strftime(
+                        "%Y-%m-%d"
+                    )
+                    timeStamp = datetime.datetime.fromtimestamp(ts).strftime(
+                        "%H:%M:%S"
+                    )
+                    aa = df.loc[df["Roll No"] == Id]["Name"].values
+                    global tt
+                    tt = str(Id) + "-" + aa
+                    
+                    attendance.loc[len(attendance)] = [
+                        Id,
+                        aa,
+                    ]
+                    cv2.putText(im,f"Semester:{i}",(x,y-55),cv2.FONT_HERSHEY_COMPLEX,0.8,(255,255,255),3)
+                    cv2.putText(im,f"Name:{n}",(x,y-30),cv2.FONT_HERSHEY_COMPLEX,0.8,(255,255,255),3)
+                    cv2.putText(im,f"Branch:{d}",(x,y-5),cv2.FONT_HERSHEY_COMPLEX,0.8,(255,255,255),3)           
+                else:
+                    cv2.rectangle(im,(x,y),(x+w,y+h),(0,0,255),3)
+                    cv2.putText(im,"Unknown Face",(x,y-5),cv2.FONT_HERSHEY_COMPLEX,0.8,(255,255,255),3)
+            if time.time() > future:
                 break
-            # break if the sample number is more than 60
-            elif sampleNum > 60:
+
+            attendance = attendance.drop_duplicates(["Roll No"], keep="first")
+            cv2.imshow("Filling Attendance...", im)
+            key = cv2.waitKey(30) & 0xFF
+            if key == 27:
                 break
-        # releasing the resources
+
+        ts = time.time()
+        print(aa)
+        
+        attendance[date] = 1
+        date = datetime.datetime.fromtimestamp(ts).strftime("%Y-%m-%d")
+        timeStamp = datetime.datetime.fromtimestamp(ts).strftime("%H:%M:%S")
+        Hour, Minute, Second = timeStamp.split(":")
+        
+        path = os.path.join(attendance_path, Subject)
+        fileName = (
+            f"{path}/"
+            + Subject
+            + "_"
+            + date
+            + "_"
+            + Hour
+            + "-"
+            + Minute
+            + "-"
+            + Second
+            + ".csv"
+        )
+        attendance = attendance.drop_duplicates(["Roll No"], keep="first")
+        print(attendance)
+        attendance.to_csv(fileName, index=False)
+
+        messagebox.showinfo("Congrats","Attendance marked successfully of " + Subject)
+        
         cam.release()
-        # closing all the windows
         cv2.destroyAllWindows()
-        # Displaying message for the user
-        res = "Images Saved for ID : " + Id + " Name : " + name
-        # Creating the entry for the user in a csv file
-        row = [Id, name]
-        with open('UserDetails.csv', 'a+') as csvFile:
-            writer = csv.writer(csvFile)
-            # Entry of the row in csv file
-            writer.writerow(row)
-        csvFile.close()
-        message.configure(text=res)
-    else:
-        if(is_number(Id)):
-            res = "Enter Alphabetical Name"
-            message.configure(text=res)
-        if(name.isalpha()):
-            res = "Enter Numeric Id"
-            message.configure(text=res)
- 
-# Training the images saved in training image folder
- 
- 
-def TrainImages():
-    # Local Binary Pattern Histogram is an Face Recognizer
-    # algorithm inside OpenCV module used for training the image dataset
-    recognizer = cv2.face.LBPHFaceRecognizer_create()
-    # Specifying the path for HaarCascade file
-    harcascadePath = "haarcascade_frontalface_default.xml"
-    # creating detector for faces
-    detector = cv2.CascadeClassifier(harcascadePath)
-    # Saving the detected faces in variables
-    faces, Id = getImagesAndLabels("TrainingImage")
-    # Saving the trained faces and their respective ID's
-    # in a model named as "trainner.yml".
-    recognizer.train(faces, np.array(Id))
-    recognizer.save("Trainner.yml")
-    # Displaying the message
-    res = "Image Trained"
-    message.configure(text=res)
- 
- 
-def getImagesAndLabels(path):
-    # get the path of all the files in the folder
-    imagePaths = [os.path.join(path, f) for f in os.listdir(path)]
-    faces = []
-    # creating empty ID list
-    Ids = []
-    # now looping through all the image paths and loading the
-    # Ids and the images saved in the folder
-    for imagePath in imagePaths:
-        # loading the image and converting it to gray scale
-        pilImage = Image.open(imagePath).convert('L')
-        # Now we are converting the PIL image into numpy array
-        imageNp = np.array(pilImage, 'uint8')
-        # getting the Id from the image
-        Id = int(os.path.split(imagePath)[-1].split(".")[1])
-        # extract the face from the training image sample
-        faces.append(imageNp)
-        Ids.append(Id)
-    return faces, Ids
-# For testing phase
- 
- 
-def TrackImages():
-    recognizer = cv2.face.LBPHFaceRecognizer_create()
-    # Reading the trained model
-    recognizer.read("Trainner.yml")
-    harcascadePath = "haarcascade_frontalface_default.xml"
-    faceCascade = cv2.CascadeClassifier(harcascadePath)
-    # getting the name from "userdetails.csv"
-    df = pd.read_csv("UserDetails.csv")
-    cam = cv2.VideoCapture(0)
-    font = cv2.FONT_HERSHEY_SIMPLEX
-    while True:
-        ret, im = cam.read()
-        gray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
-        faces = faceCascade.detectMultiScale(gray, 1.2, 5)
-        for(x, y, w, h) in faces:
-            cv2.rectangle(im, (x, y), (x + w, y + h), (225, 0, 0), 2)
-            Id, conf = recognizer.predict(gray[y:y + h, x:x + w])
-            if(conf < 50):
-                aa = df.loc[df['Id'] == Id]['Name'].values
-                tt = str(Id)+"-"+aa
-            else:
-                Id = 'Unknown'
-                tt = str(Id)
-            if(conf > 75):
-                noOfFile = len(os.listdir("ImagesUnknown"))+1
-                cv2.imwrite("Image" +
-                            str(noOfFile) + ".jpg", im[y:y + h, x:x + w])
-            cv2.putText(im, str(tt), (x, y + h),
-                        font, 1, (255, 255, 255), 2)
-        cv2.imshow('im', im)
-        if (cv2.waitKey(1) == ord('q')):
-            break
-    cam.release()
-    cv2.destroyAllWindows()
- 
- 
-takeImg = Button(window, text="Sample", command=TakeImages, fg="white", bg="green", width=20, height=3, activebackground="Red", font=('times', 15, ' bold '))
-takeImg.place(x=200, y=500)
 
-trainImg = Button(window, text="Training", command=TrainImages, fg="white", bg="green", width=20, height=3, activebackground="Red", font=('times', 15, ' bold '))
-trainImg.place(x=500, y=500)
 
-trackImg = Button(window, text="Testing", command=TrackImages, fg="white", bg="green", width=20, height=3, activebackground="Red", font=('times', 15, ' bold '))
-trackImg.place(x=800, y=500)
+    def calculate_attendance(self):
+        Subject = self.var_Sub.get()
+        if Subject=="":
+            message.showinfo('Please enter the subject name.')
+            
+        os.chdir(
+            f"C:\\Users\\ankit\\Desktop\\New folder\\Subjects\\{Subject}"
+        )
+        filenames = glob(
+            f"C:\\Users\\ankit\\Desktop\\New folder\\Subjects\\{Subject}\\{Subject}*.csv"
+        )
 
-quitWindow = Button(window, text="Quit", command=window.destroy, fg="white", bg="green", width=20, height=3, activebackground="Red", font=('times', 15, ' bold '))
-quitWindow.place(x=1100, y=500)
- 
- 
-window.mainloop()
+        df = [pd.read_csv(f) for f in filenames]
+        newdf = df[0]
+        for i in range(1, len(df)):
+            newdf = newdf.merge(df[i], how="outer")
+        newdf.fillna(0, inplace=True)
+
+        newdf["Attendance"] = 0
+        for i in range(len(newdf)):
+            newdf["Attendance"].iloc[i] = str(int(round(newdf.iloc[i, 2:-1].mean() * 100)))+'%'
+            
+        newdf.to_csv("attendance.csv", index=False)
+
+        root = Tk()
+        root.title("Attendance of "+Subject)
+        root.configure(background="black")
+        cs = f"C:\\Users\\ankit\\Desktop\\New folder\\Subjects\\{Subject}\\attendance.csv"
+        with open(cs) as file:
+            reader = csv.reader(file)
+            r = 0
+
+            for col in reader:
+                c = 0
+                for row in col:
+
+                    label = Label(root, width=10, height=1, fg="black", font=("times", 15, " bold "), bg="white",text=row, relief=RIDGE)
+                    label.grid(row=r, column=c)
+                    c += 1
+                r += 1
+        root.mainloop()
+        print(newdf) 
+    
+if __name__ == "__main__":
+    root=Tk()  
+    obj=Attendance_Registration(root)
+    root.mainloop()                            
