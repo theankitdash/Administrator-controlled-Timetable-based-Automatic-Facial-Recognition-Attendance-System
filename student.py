@@ -8,7 +8,7 @@ import os
 import numpy as np
 import csv
 
-class Face_Registration:
+class Student_Registration:
     def __init__(self, root):
         self.root=root
         self.root.geometry("1280x720+0+0")
@@ -32,7 +32,7 @@ class Face_Registration:
         BgImage = Label(self.root, image=self.photobg_img)
         BgImage.place(x=0,y=0,width=1280,height=720)
 
-        title = Label(BgImage, text="Facial Registration", font=("Times new roman", 25,"bold"),bg="white")
+        title = Label(BgImage, text="Student Registration", font=("Times new roman", 25,"bold"),bg="white")
         title.place(x=0,y=0,width=1280,height=45)
 
         main_frame = Frame(BgImage, bd=2, bg="white")
@@ -460,5 +460,5 @@ class Face_Registration:
 
 if __name__ == "__main__":
     root=Tk()  
-    obj=Face_Registration(root)
+    obj=Student_Registration(root)
     root.mainloop()  
