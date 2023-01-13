@@ -235,7 +235,7 @@ class Faculty_Registration:
 
     #update
     def update_data(self):
-        if self.var_branch.get()=="Select branch" or self.var_Name.get()=="" or self.var_Roll.get()=="":
+        if self.var_branch.get()=="Select branch" or self.var_Name.get()=="" or self.var_Id.get()=="":
             messagebox.showerror("Error", "All fields are required")
         else:
             try:

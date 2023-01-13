@@ -148,7 +148,7 @@ class Student_Registration:
 
         self.var_com_search=StringVar()
         search_combo=ttk.Combobox(Search_frame, textvariable= self.var_com_search, font=("times new roman",12,"bold"), state="readonly", width=10)
-        search_combo["values"]=("Select", "Roll")
+        search_combo["values"]=("Select", "Roll_No")
         search_combo.current(0)
         search_combo.grid(row=0, column=1, padx=5, pady=10, sticky=W)
 
@@ -174,7 +174,7 @@ class Student_Registration:
         scroll_y.config(command=self.student_table.yview)
 
         self.student_table.heading("name", text="Name")
-        self.student_table.heading("rollno", text="Roll")
+        self.student_table.heading("rollno", text="Roll_No")
         self.student_table.heading("section", text="Section")
         self.student_table.heading("semester", text="Semester")
         self.student_table.heading("branch", text="Branch")
@@ -361,6 +361,7 @@ class Student_Registration:
                         self.var_Sem.get(),
                         self.var_branch.get(),
                         self.var_Email.get(),
+                        self.var_ph.get(),
                         self.var_radio1.get(),
 
                         self.var_Roll.get()
