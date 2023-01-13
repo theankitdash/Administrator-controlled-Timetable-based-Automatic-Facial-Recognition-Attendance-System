@@ -29,9 +29,18 @@ class Subject:
         main_frame = Frame(BgImage, bd=2, bg="white")
         main_frame.place(x=20,y=50,width=1240, height = 650)
 
+        #logo
+        logo_img=Image.open(r"C:\Users\ankit\Desktop\New folder\SOA-PNG.png")
+        logo_img=logo_img.resize((250,250),Image.ANTIALIAS)
+        self.photologo_img=ImageTk.PhotoImage(logo_img)
+
+        logoImage = Label(main_frame, image=self.photologo_img, bg="white")
+        logoImage.place(x=0,y=10,width=400,height=250)
+
+
         #Details Frame
         det_frame=LabelFrame(main_frame, bd=2, relief=RIDGE, text="Subject Details", font=("times new roman",12,"bold"), bg="white")
-        det_frame.place(x=10, y=10, width=400, height=600)
+        det_frame.place(x=20, y=300, width=400, height=150)
 
         #SubCode
         SubCode_label=Label(det_frame,text="Subject Code:", font=("times new roman", 12,"bold"),bg="white")
@@ -57,7 +66,7 @@ class Subject:
 
         #Buttons
         Bt_frame=Frame(main_frame,bd=2,relief=RIDGE,bg="white")
-        Bt_frame.place(x=10, y=350, width=400,height=35)
+        Bt_frame.place(x=20, y=450, width=400,height=35)
         
         save_photo_bt=Button(Bt_frame,text="Save", command=self.add_data ,width=10,font=("times new roman", 12,"bold"),bg="white")
         save_photo_bt.grid(row=0,column=0)
@@ -75,7 +84,7 @@ class Subject:
 
         #Details Fetch Frame
         Search_frame=LabelFrame(main_frame, bd=2, relief=RIDGE, text="Search System", font=("times new roman",12,"bold"), bg="white")
-        Search_frame.place(x=450, y=10, width=600, height=70)
+        Search_frame.place(x=500, y=10, width=600, height=70)
 
         #Search
         search_label=Label(Search_frame,text="Search by:", font=("times new roman", 12,"bold"), width=10,bg="white")
@@ -99,7 +108,7 @@ class Subject:
 
         #Subject details frame
         table_frame=Frame(main_frame, bd=2, bg="white", relief=RIDGE)
-        table_frame.place(x=450, y=100, width=600, height=230)
+        table_frame.place(x=500, y=100, width=600, height=500)
 
         scroll_y=ttk.Scrollbar(table_frame, orient=VERTICAL)
 
@@ -179,9 +188,9 @@ class Subject:
                     my_cursor = conn.cursor() 
                     my_cursor.execute("Update subjects set SUBNAME=%s, SUBTYPE=%s where SUBCODE=%s", (
                                                                                                                     
-                                                                                                                    self.var_subCode.get(),
                                                                                                                     self.var_sub.get(),
-                                                                                                                    self.var_radio1.get()
+                                                                                                                    self.var_radio1.get(),
+                                                                                                                    self.var_subCode.get()
                                                                                                                     
                                                                                                                 ))
                 else:

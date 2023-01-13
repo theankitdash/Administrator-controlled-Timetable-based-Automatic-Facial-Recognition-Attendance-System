@@ -114,7 +114,7 @@ class Student_Registration:
 
         #Buttons
         Bt_frame=Frame(main_frame,bd=2,relief=RIDGE,bg="white")
-        Bt_frame.place(x=450, y=500, width=600,height=35)
+        Bt_frame.place(x=500, y=500, width=600,height=35)
         
         save_photo_bt=Button(Bt_frame,text="Save", command=self.add_data ,width=15,font=("times new roman", 12,"bold"),bg="white")
         save_photo_bt.grid(row=0,column=0)
@@ -130,7 +130,7 @@ class Student_Registration:
 
         #Button
         Bt_frame1=Frame(main_frame,bd=2,relief=RIDGE,bg="white")
-        Bt_frame1.place(x=450, y=535, width=600,height=35)
+        Bt_frame1.place(x=500, y=535, width=600,height=35)
 
         take_photo_bt=Button(Bt_frame1,text="Take Photo", command=self.data_generate, width=32,font=("times new roman", 12,"bold"),bg="white")
         take_photo_bt.grid(row=0,column=0)

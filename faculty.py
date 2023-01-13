@@ -33,9 +33,18 @@ class Faculty_Registration:
         main_frame = Frame(BgImage, bd=2, bg="white")
         main_frame.place(x=20,y=50,width=1240, height = 650)
 
+        #logo
+        logo_img=Image.open(r"C:\Users\ankit\Desktop\New folder\SOA-PNG.png")
+        logo_img=logo_img.resize((250,250),Image.ANTIALIAS)
+        self.photologo_img=ImageTk.PhotoImage(logo_img)
+
+        logoImage = Label(main_frame, image=self.photologo_img, bg="white")
+        logoImage.place(x=0,y=10,width=400,height=250)
+
+
         #Details Frame
         det_frame=LabelFrame(main_frame, bd=2, relief=RIDGE, text="Faculty Details", font=("times new roman",12,"bold"), bg="white")
-        det_frame.place(x=10, y=10, width=400, height=600)
+        det_frame.place(x=20, y=270, width=400, height=350)
 
         #Name
         Name_label=Label(det_frame,text="Name:", font=("times new roman", 12,"bold"),bg="white")
@@ -100,18 +109,18 @@ class Faculty_Registration:
 
         #Buttons
         Bt_frame=Frame(main_frame,bd=2,relief=RIDGE,bg="white")
-        Bt_frame.place(x=10, y=350, width=400,height=35)
+        Bt_frame.place(x=450, y=575, width=700,height=35)
         
-        save_photo_bt=Button(Bt_frame,text="Save", command=self.add_data ,width=10,font=("times new roman", 12,"bold"),bg="white")
+        save_photo_bt=Button(Bt_frame,text="Save", command=self.add_data ,width=19,font=("times new roman", 12,"bold"),bg="white")
         save_photo_bt.grid(row=0,column=0)
 
-        delete_bt=Button(Bt_frame,text="DELETE", command=self.delete_data,width=10,font=("times new roman", 12,"bold"),bg="white")
+        delete_bt=Button(Bt_frame,text="DELETE", command=self.delete_data,width=18,font=("times new roman", 12,"bold"),bg="white")
         delete_bt.grid(row=0,column=1)
 
-        reset_bt=Button(Bt_frame,text="Reset", command=self.reset_data, width=10,font=("times new roman", 12,"bold"),bg="white")
+        reset_bt=Button(Bt_frame,text="Reset", command=self.reset_data, width=18,font=("times new roman", 12,"bold"),bg="white")
         reset_bt.grid(row=0,column=2)
 
-        Update_bt=Button(Bt_frame,text="Update",command=self.update_data, width=10,font=("times new roman", 12,"bold"),bg="white")
+        Update_bt=Button(Bt_frame,text="Update",command=self.update_data, width=18,font=("times new roman", 12,"bold"),bg="white")
         Update_bt.grid(row=0,column=3)
 
         #Details Fetch Frame
@@ -140,7 +149,7 @@ class Faculty_Registration:
 
         #Faculty details frame
         table_frame=Frame(main_frame, bd=2, bg="white", relief=RIDGE)
-        table_frame.place(x=450, y=100, width=700, height=230)
+        table_frame.place(x=450, y=100, width=700, height=450)
 
         
         scroll_y=ttk.Scrollbar(table_frame, orient=VERTICAL)
@@ -162,11 +171,11 @@ class Faculty_Registration:
 
         self.faculty_table.column("name", width=70)
         self.faculty_table.column("id", width=5)
-        self.faculty_table.column("email", width=70)
-        self.faculty_table.column("branch", width=10)
-        self.faculty_table.column("section", width=10)
-        self.faculty_table.column("subcode1", width=20)
-        self.faculty_table.column("subcode2", width=20)
+        self.faculty_table.column("email", width=100)
+        self.faculty_table.column("branch", width=2)
+        self.faculty_table.column("section", width=5)
+        self.faculty_table.column("subcode1", width=10)
+        self.faculty_table.column("subcode2", width=10)
         
 
         self.faculty_table.pack(fill=BOTH, expand=1)
