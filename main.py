@@ -5,7 +5,7 @@ from student import Student_Registration
 from attendance_reg import Attendance_Registration
 from faculty import Faculty_Registration
 from subjects import Subject
-
+from time_table import Time_Schedule
 
 class Attendance_System:
     def __init__(self, root):
@@ -62,10 +62,10 @@ class Attendance_System:
         TimeTb = TimeTb.resize((200,200), Image.ANTIALIAS)
         self.photoTimeTb=ImageTk.PhotoImage(TimeTb)
 
-        TimeTb_bt = Button(BgImage,image=self.photoTimeTb, command="",cursor="hand2")
+        TimeTb_bt = Button(BgImage,image=self.photoTimeTb, command=self.time_table,cursor="hand2")
         TimeTb_bt.place(x=700,y=400,width=200,height=200)
 
-        TimeTb_bt_1 = Button(BgImage, text= "Time Table", command="",cursor="hand2",font=("times new roman",15,"bold"),fg="blue")
+        TimeTb_bt_1 = Button(BgImage, text= "Time Table", command=self.time_table,cursor="hand2",font=("times new roman",15,"bold"),fg="blue")
         TimeTb_bt_1.place(x=700,y=600, width=200, height=40)
 
 
@@ -95,7 +95,11 @@ class Attendance_System:
 
     def subject_details(self):
         self.new_window=Toplevel(self.root)
-        self.app=Subject(self.new_window)    
+        self.app=Subject(self.new_window) 
+
+    def time_table(self):
+        self.new_window=Toplevel(self.root)
+        self.app=Time_Schedule(self.new_window)        
 
 
 if __name__ == "__main__":
