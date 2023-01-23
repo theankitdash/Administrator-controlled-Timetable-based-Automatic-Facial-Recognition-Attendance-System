@@ -188,5 +188,5 @@ class Time_Schedule:
 
 if __name__ == "__main__":
     root=Tk()  
-    obj=Time_Schdeule(root)
+    obj=Time_Schedule(root)
     root.mainloop()        

@@ -29,10 +29,10 @@ class Attendance_System:
         Face_Reg = Face_Reg.resize((200,200), Image.ANTIALIAS)
         self.photoFace_Reg=ImageTk.PhotoImage(Face_Reg)
 
-        bt = Button(BgImage,image=self.photoFace_Reg, command=self.face_details, cursor="hand2")
+        bt = Button(BgImage,image=self.photoFace_Reg, command=self.student_details, cursor="hand2")
         bt.place(x=100,y=100,width=200,height=200)
 
-        bt_1 = Button(BgImage, text= "Student Registration",command=self.face_details, cursor="hand2",font=("times new roman",15,"bold"),fg="blue")
+        bt_1 = Button(BgImage, text= "Student Registration",command=self.student_details, cursor="hand2",font=("times new roman",15,"bold"),fg="blue")
         bt_1.place(x=100,y=300, width=200, height=40)
 
         #Faculty Button
@@ -81,7 +81,7 @@ class Attendance_System:
         bt_1.place(x=350,y=600, width=200, height=40)
 
 
-    def face_details(self):
+    def student_details(self):
         self.new_window=Toplevel(self.root)
         self.app=Student_Registration(self.new_window)
 
