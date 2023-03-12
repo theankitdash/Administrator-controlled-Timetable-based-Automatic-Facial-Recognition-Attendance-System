@@ -10,11 +10,12 @@ import numpy as np
 import pandas as pd
 import time
 import datetime
-from glob import glob
+import urllib.request
 
 trainedimages = ("classifier.xml")
 face_cascade = 'haarcascade_frontalface_default.xml'
 attendance_path = "C:\\Users\\ankit\\Desktop\\New folder\\Roll"
+url='http://192.168.137.129/capture'
 
 class Attendance_Registration:
     def __init__(self, root):
@@ -47,14 +48,17 @@ class Attendance_Registration:
 
         faceCascade = cv2.CascadeClassifier(face_cascade)   
         df = pd.read_csv("studentdetails.csv")
-        cam = cv2.VideoCapture(0)
+        #cam = cv2.VideoCapture(0)
         font = cv2.FONT_HERSHEY_SIMPLEX
         col_names = ["Roll No", "Name"]
         attendance = pd.DataFrame(columns=col_names)
 
         while True:
-            ___, im = cam.read()
-            gray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
+            imgResp=urllib.request.urlopen(url)
+            imgNp=np.array(bytearray(imgResp.read()),dtype=np.uint8)
+            img=cv2.imdecode(imgNp,-1)
+            #___, im = cam.read()
+            gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
             faces = faceCascade.detectMultiScale(gray, 1.2, 5)
             for (x, y, w, h) in faces:
                 global Id
@@ -66,12 +70,8 @@ class Attendance_Registration:
                     global date
                     global timeStamp
                     ts = time.time()
-                    date = datetime.datetime.fromtimestamp(ts).strftime(
-                        "%Y-%m-%d"
-                    )
-                    timeStamp = datetime.datetime.fromtimestamp(ts).strftime(
-                        "%H:%M:%S"
-                    )
+                    date = datetime.datetime.fromtimestamp(ts).strftime("%Y-%m-%d")
+                    timeStamp = datetime.datetime.fromtimestamp(ts).strftime("%H:%M:%S")
                     aa = df.loc[df["Roll No"] == Id]["Name"].values
                     global tt
                     tt = str(Id) + "-" + aa
@@ -82,15 +82,15 @@ class Attendance_Registration:
                     ]
                     str_id = str(Id)
                     str_name = str(aa)
-                    cv2.rectangle(im,(x,y),(x+w,y+h),(0,0,255),3)
-                    cv2.putText(im, f"Roll No:{str_id}", (x,y-55),cv2.FONT_HERSHEY_COMPLEX,0.8,(255,255,255),3)
-                    cv2.putText(im, f"Name:{str_name}", (x,y-30),cv2.FONT_HERSHEY_COMPLEX,0.8,(255,255,255),3)        
+                    cv2.rectangle(img,(x,y),(x+w,y+h),(0,0,255),3)
+                    cv2.putText(img, f"Roll No:{str_id}", (x,y-55),cv2.FONT_HERSHEY_COMPLEX,0.8,(255,255,255),3)
+                    cv2.putText(img, f"Name:{str_name}", (x,y-30),cv2.FONT_HERSHEY_COMPLEX,0.8,(255,255,255),3)        
                 else:
-                    cv2.rectangle(im,(x,y),(x+w,y+h),(0,0,255),3)
-                    cv2.putText(im,"Unknown Face",(x,y-5),cv2.FONT_HERSHEY_COMPLEX,0.8,(255,255,255),3)
+                    cv2.rectangle(img,(x,y),(x+w,y+h),(0,0,255),3)
+                    cv2.putText(img,"Unknown Face",(x,y-5),cv2.FONT_HERSHEY_COMPLEX,0.8,(255,255,255),3)
 
             attendance = attendance.drop_duplicates(["Roll No"], keep="first")
-            cv2.imshow("Filling Attendance...", im)
+            cv2.imshow("Filling Attendance...", img)
             key = cv2.waitKey(30)
             if key == ord('q'):
                 break
@@ -103,44 +103,69 @@ class Attendance_Registration:
             timeStamp = datetime.datetime.fromtimestamp(ts).strftime("%H:%M:%S")
             Hour, Minute, Second = timeStamp.split(":")
 
-            str_id = str(Id)
-            path = os.path.join(attendance_path, str_id)
-            isExist = os.path.exists(path)
+            day_number = datetime.datetime.fromtimestamp(ts).strftime("%w")
+            weekday = int(day_number)
+
+            conn = mysql.connector.connect(host='localhost', username='root', password='Chiku@3037', database='attendance-system')
+            cursor = conn.cursor()
+            cursor.execute("select distinct Branch FROM student where Roll_No = %s", (str_id,))
+            result = cursor.fetchone()
+
+            query = "select SUBCODE from schedule where DAYID= %s AND PERIODID = %s AND BRANCH = %s" 
+            cursor.execute(query, (weekday+1, period, result[0],))
+            result1 = cursor.fetchall()
+            result_str = ""
+
+            for row in result1:
+                result_str += str(row[0]) + ", "
+            print(result_str[:-2])     
             
+            path = os.path.join(attendance_path, result_str[:-2])
+            isExist = os.path.exists(path)
+
             def save_attendance():    
-                fileName = (f"{path}/"+ str_id+ "_" + date+ "_" + Hour + "-" + Minute + "-" + Second + ".csv")
+                fileName = (f"{path}/" + result_str[:-2] + "_" + date+ "_" + Hour + "-" + Minute + "-" + Second + ".csv")
                 attendance1 = attendance.drop_duplicates(["Roll No"], keep="first")
                 print(attendance1)
                 attendance1.to_csv(fileName, index=False)
 
+            
             if isExist:
                 save_attendance()
             else:
                 os.mkdir(path) 
                 save_attendance()
                 
-        #Within the 9:00 AM - 9:10 AM interval
-        if datetime.time(9, 0) <= now < datetime.time(9, 10):
-           time_attendance()
-    
-        #Within the 10:00 AM - 10:10 AM interval
-        elif datetime.time(10, 00) <= now < datetime.time(10, 10): 
-            time_attendance()
-            
-        #Within the 11:00 AM - 11:10 AM interval
-        elif datetime.time(11, 00) <= now < datetime.time(11, 10): 
-            time_attendance()          
+        period_names = list(map(lambda x: str(x), range(1, 5+1)))
 
-        #Within the 12:00 PM - 12:10 PM interval
+        # Within the 9:00 AM - 9:10 AM interval
+        if datetime.time(9, 0) <= now < datetime.time(9, 10):
+            period = period_names[0]
+            time_attendance()
+
+        # Within the 10:00 AM - 10:10 AM interval
+        elif datetime.time(10, 00) <= now < datetime.time(10, 10): 
+            period = period_names[1]
+            time_attendance()
+
+        # Within the 11:00 AM - 11:10 AM interval
+        elif datetime.time(11, 00) <= now < datetime.time(11, 10): 
+            period = period_names[2]
+            time_attendance()
+
+        # Within the 12:00 PM - 12:10 PM interval
         elif datetime.time(12, 00) <= now < datetime.time(12, 10):  
+            period = period_names[3]
             time_attendance()
             
-        #Within the 1:00 PM - 1:10 PM interval
-        elif datetime.time(13, 00) <= now < datetime.time(13, 10): 
+        # Within the 1:00 PM - 1:10 PM interval
+        elif datetime.time(13, 00) <= now < datetime.time(20, 10): 
+            period = period_names[4]
             time_attendance()
+
         else:
             print("You are late")              
-        cam.release()
+        #cam.release()
         cv2.destroyAllWindows()
 
     

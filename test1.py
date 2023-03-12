@@ -15,7 +15,7 @@ class Attendance_Calculation:
     def __init__(self, root):
         self.root=root
         self.root.geometry("1280x720+0+0")
-        self.root.title("Attendance Calculation")
+        self.root.title("Attendance Registration")
 
         self.var_subcode=StringVar()
 
@@ -39,7 +39,7 @@ class Attendance_Calculation:
         subcode_combo=ttk.Combobox(BgImage, values=subcode_li,textvariable=self.var_subcode,font=("times new roman",12,"bold"), state="readonly")
         subcode_combo.current(0)
         subcode_combo.place(x=500,y=270,width=250,height=50)
-
+        
         bt=Button(BgImage,text="VIEW ATTENDANCE",command=self.calculate_attendance,cursor="hand2",font=("times new roman",18,"bold"),bg="darkgreen",fg="white")
         bt.place(x=500,y=350,width=250,height=50)
 
