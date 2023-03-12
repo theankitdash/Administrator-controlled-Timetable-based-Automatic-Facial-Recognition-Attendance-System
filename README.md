@@ -1,4 +1,4 @@
-### Facial Recognition Attendance System
+### Admin controlled Automatic Smart Attendance Recognition System
 
 This software is based on Python managed by mySQL database.
 
@@ -6,3 +6,4 @@ This software is based on Python managed by mySQL database.
 1. Admin User interface
 2. Data managed by mySQL database
 3. OpenCV frontalface Algorithm
+4. TimeTable based Attendance management
