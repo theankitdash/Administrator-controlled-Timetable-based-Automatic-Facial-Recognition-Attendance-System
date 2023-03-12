@@ -15,7 +15,7 @@ class Attendance_Calculation:
     def __init__(self, root):
         self.root=root
         self.root.geometry("1280x720+0+0")
-        self.root.title("Attendance Registration")
+        self.root.title("Attendance Calculation")
 
         self.var_subcode=StringVar()
 
