@@ -112,7 +112,7 @@ class Attendance_Registration:
             result = cursor.fetchone()
 
             query = "select SUBCODE from schedule where DAYID= %s AND PERIODID = %s AND BRANCH = %s" 
-            cursor.execute(query, (weekday+1, period, result[0],))
+            cursor.execute(query, (weekday, period, result[0],))
             result1 = cursor.fetchall()
             result_str = ""
 
