@@ -25,7 +25,7 @@ class Student_Registration:
 
 
         #Bg Image
-        bg_img=Image.open(r"C:\Users\ankit\Desktop\New folder\itersoa.jpg")
+        bg_img=Image.open(r"C:\Users\ankit\Desktop\New folder\iter.png")
         bg_img=bg_img.resize((1280,720),Image.ANTIALIAS)
         self.photobg_img=ImageTk.PhotoImage(bg_img)
 
@@ -38,133 +38,125 @@ class Student_Registration:
         main_frame = Frame(BgImage, bd=2, bg="white")
         main_frame.place(x=20,y=50,width=1240, height = 650)
 
-        #logo
-        logo_img=Image.open(r"C:\Users\ankit\Desktop\New folder\SOA-PNG.png")
-        logo_img=logo_img.resize((250,250),Image.ANTIALIAS)
-        self.photologo_img=ImageTk.PhotoImage(logo_img)
-
-        logoImage = Label(main_frame, image=self.photologo_img, bg="white")
-        logoImage.place(x=0,y=10,width=400,height=250)
-
         #Details Frame
-        det_frame=LabelFrame(main_frame, bd=2, relief=RIDGE, text="Student Details", font=("times new roman",12,"bold"), bg="white")
-        det_frame.place(x=20, y=270, width=400, height=350)
+        det_frame=LabelFrame(main_frame, bd=2, relief=RIDGE, text="STUDENT DETAILS", font=("times new roman",14,"bold"), bg="white")
+        det_frame.place(x=20, y=30, width=400, height=430)
 
         #Name
-        Name_label=Label(det_frame,text="Name:", font=("times new roman", 12,"bold"),bg="white")
-        Name_label.grid(row=0, column=0, padx=10, sticky=W)
+        Name_label=Label(det_frame,text="Name:", font=("times new roman", 14,"bold"),bg="white")
+        Name_label.grid(row=1, column=0, padx=15, pady=15, sticky=W)
 
-        Name_Entry=Entry(det_frame, textvariable=self.var_Name,width=30,font=("times new roman",12,"bold"),bg="white")
-        Name_Entry.grid(row=0, column=1, padx=2, pady=10, sticky=W)
+        Name_Entry=Entry(det_frame, textvariable=self.var_Name,width=25,font=("times new roman",12,"bold"),bg="white")
+        Name_Entry.grid(row=1, column=1, padx=2, pady=15, sticky=W)
 
         #Roll No
-        Roll_label=Label(det_frame,text="Roll No:", font=("times new roman", 12,"bold"),bg="white")
-        Roll_label.grid(row=1, column=0, padx=10, sticky=W)
+        Roll_label=Label(det_frame,text="Roll No:", font=("times new roman", 14,"bold"),bg="white")
+        Roll_label.grid(row=2, column=0, padx=10, sticky=W)
 
-        Roll_Entry=Entry(det_frame, textvariable=self.var_Roll,width=30,font=("times new roman",12,"bold"),bg="white")
-        Roll_Entry.grid(row=1, column=1, padx=2, pady=10, sticky=W)
+        Roll_Entry=Entry(det_frame, textvariable=self.var_Roll,width=25,font=("times new roman",12,"bold"),bg="white")
+        Roll_Entry.grid(row=2, column=1, padx=2, pady=10, sticky=W)
 
         #Section
-        sec_label=Label(det_frame,text="Section:", font=("times new roman", 12,"bold"),bg="white")
-        sec_label.grid(row=2, column=0, padx=10, sticky=W)
+        sec_label=Label(det_frame,text="Section:", font=("times new roman", 14,"bold"),bg="white")
+        sec_label.grid(row=3, column=0, padx=10, pady=15, sticky=W)
 
-        sec_Entry=Entry(det_frame, textvariable=self.var_Sec,width=30,font=("times new roman",12,"bold"),bg="white")
-        sec_Entry.grid(row=2, column=1, padx=2, pady=10, sticky=W)
+        sec_Entry=Entry(det_frame, textvariable=self.var_Sec,width=25,font=("times new roman",12,"bold"),bg="white")
+        sec_Entry.grid(row=3, column=1, padx=2, pady=15, sticky=W)
 
         #Branch
-        dep_label=Label(det_frame,text="Branch", font=("times new roman", 12,"bold"),bg="white")
-        dep_label.grid(row=3,column=0, padx=10, sticky=W)
+        dep_label=Label(det_frame,text="Branch", font=("times new roman", 14,"bold"),bg="white")
+        dep_label.grid(row=4,column=0, padx=10, pady=10, sticky=W)
 
-        dep_combo=ttk.Combobox(det_frame, textvariable=self.var_branch,font=("times new roman",12,"bold"), state="readonly")
+        dep_combo=ttk.Combobox(det_frame, textvariable=self.var_branch,width=20,font=("times new roman",13,"bold"), state="readonly")
         dep_combo["values"]=("Select Branch", "CSE", "CSIT", "EEE", "ECE", "MECH", "Civil")
         dep_combo.current(0)
-        dep_combo.grid(row=3, column=1, padx=2, pady=10, sticky=W)
+        dep_combo.grid(row=4, column=1, padx=2, pady=10, sticky=W)
 
         #Semester
-        sem_label=Label(det_frame,text="Semester", font=("times new roman", 12,"bold"),bg="white")
-        sem_label.grid(row=4,column=0, padx=10, sticky=W)
+        sem_label=Label(det_frame,text="Semester", font=("times new roman", 14,"bold"),bg="white")
+        sem_label.grid(row=5,column=0, padx=10, pady=15, sticky=W)
 
-        sem_combo=ttk.Combobox(det_frame, textvariable=self.var_Sem, font=("times new roman",12,"bold"), state="readonly")
+        sem_combo=ttk.Combobox(det_frame, textvariable=self.var_Sem,width=20, font=("times new roman",13,"bold"), state="readonly")
         sem_combo["values"]=("Select Semester", "1st", "2nd", "3rd", "4th", "5th", "6th","7th", "8th")
         sem_combo.current(0)
-        sem_combo.grid(row=4, column=1, padx=2, pady=10, sticky=W)
+        sem_combo.grid(row=5, column=1, padx=2, pady=10, sticky=W)
 
         #Email
-        Email_label=Label(det_frame,text="Email:", font=("times new roman", 12,"bold"),bg="white")
-        Email_label.grid(row=5, column=0, padx=10, sticky=W)
+        Email_label=Label(det_frame,text="Email:", font=("times new roman", 14,"bold"),bg="white")
+        Email_label.grid(row=6, column=0, padx=10, sticky=W)
 
-        Email_Entry=Entry(det_frame, textvariable=self.var_Email,width=30,font=("times new roman",12,"bold"),bg="white")
-        Email_Entry.grid(row=5, column=1, padx=2, pady=10, sticky=W)
+        Email_Entry=Entry(det_frame, textvariable=self.var_Email,width=25,font=("times new roman",12,"bold"),bg="white")
+        Email_Entry.grid(row=6, column=1, padx=2, pady=10, sticky=W)
 
         #Phone
-        Phone_label=Label(det_frame,text="Phone:", font=("times new roman", 12,"bold"),bg="white")
-        Phone_label.grid(row=6, column=0, padx=10, sticky=W)
+        Phone_label=Label(det_frame,text="Phone:", font=("times new roman", 14,"bold"),bg="white")
+        Phone_label.grid(row=7, column=0, padx=10 ,pady=10, sticky=W)
 
-        Phone_Entry=Entry(det_frame, textvariable=self.var_ph,width=30,font=("times new roman",12,"bold"),bg="white")
-        Phone_Entry.grid(row=6, column=1, padx=2, pady=10, sticky=W)
+        Phone_Entry=Entry(det_frame, textvariable=self.var_ph,width=25,font=("times new roman",12,"bold"),bg="white")
+        Phone_Entry.grid(row=7, column=1, padx=2, pady=10, sticky=W)
 
 
         #radiobuttons
         self.var_radio1=StringVar()
         radiobt_1=ttk.Radiobutton(det_frame, variable=self.var_radio1, text="Take photo Sample", value="Yes")
-        radiobt_1.grid(row=7,column=0)
+        radiobt_1.grid(row=9,column=0, padx=15, pady=15)
 
         radiobt_1=ttk.Radiobutton(det_frame, variable=self.var_radio1,text="No photo Sample", value="No")
-        radiobt_1.grid(row=7,column=1)
+        radiobt_1.grid(row=9,column=1, padx=2, pady=15)
 
         #Buttons
         Bt_frame=Frame(main_frame,bd=2,relief=RIDGE,bg="white")
-        Bt_frame.place(x=500, y=500, width=600,height=35)
+        Bt_frame.place(x=20, y=475, width=404,height=35)
         
-        save_photo_bt=Button(Bt_frame,text="Save", command=self.add_data ,width=15,font=("times new roman", 12,"bold"),bg="white")
+        save_photo_bt=Button(Bt_frame,text="Save", command=self.add_data ,width=10,font=("times new roman", 12,"bold"),bg="white")
         save_photo_bt.grid(row=0,column=0)
 
-        delete_bt=Button(Bt_frame,text="DELETE", command=self.delete_data,width=16,font=("times new roman", 12,"bold"),bg="white")
+        delete_bt=Button(Bt_frame,text="DELETE", command=self.delete_data,width=10,font=("times new roman", 12,"bold"),bg="white")
         delete_bt.grid(row=0,column=1)
 
-        reset_bt=Button(Bt_frame,text="Reset", command=self.reset_data, width=16,font=("times new roman", 12,"bold"),bg="white")
+        reset_bt=Button(Bt_frame,text="Reset", command=self.reset_data, width=10,font=("times new roman", 12,"bold"),bg="white")
         reset_bt.grid(row=0,column=2)
 
-        Update_bt=Button(Bt_frame,text="Update",command=self.update_data, width=15,font=("times new roman", 12,"bold"),bg="white")
+        Update_bt=Button(Bt_frame,text="Update",command=self.update_data, width=10,font=("times new roman", 12,"bold"),bg="white")
         Update_bt.grid(row=0,column=3)
 
         #Button
         Bt_frame1=Frame(main_frame,bd=2,relief=RIDGE,bg="white")
-        Bt_frame1.place(x=500, y=535, width=600,height=35)
+        Bt_frame1.place(x=20, y=510, width=402,height=35)
 
-        take_photo_bt=Button(Bt_frame1,text="Take Photo", command=self.data_generate, width=32,font=("times new roman", 12,"bold"),bg="white")
+        take_photo_bt=Button(Bt_frame1,text="Take Photo", command=self.data_generate, width=21,font=("times new roman", 12,"bold"),bg="white")
         take_photo_bt.grid(row=0,column=0)
                 
-        train_photo_bt=Button(Bt_frame1,text="Train Photo", command=self.train_classifier,width=32,font=("times new roman", 12,"bold"),bg="white")
+        train_photo_bt=Button(Bt_frame1,text="Train Photo", command=self.train_classifier,width=21,font=("times new roman", 12,"bold"),bg="white")
         train_photo_bt.grid(row=0,column=1)
 
         #Details Fetch Frame
-        Search_frame=LabelFrame(main_frame, bd=2, relief=RIDGE, text="Search System", font=("times new roman",12,"bold"), bg="white")
-        Search_frame.place(x=450, y=10, width=700, height=70)
+        Search_frame=LabelFrame(main_frame, bd=2, relief=RIDGE, text="SEARCH SYSTEM", font=("times new roman",15,"bold"), bg="white")
+        Search_frame.place(x=450, y=30, width=750, height=90)
 
         #Search
-        search_label=Label(Search_frame,text="Search by:", font=("times new roman", 12,"bold"), width=10,bg="white")
+        search_label=Label(Search_frame,text="Search by:", font=("times new roman", 14,"bold"), width=10,bg="white")
         search_label.grid(row=0, column=0, padx=2, sticky=W)
 
         self.var_com_search=StringVar()
-        search_combo=ttk.Combobox(Search_frame, textvariable= self.var_com_search, font=("times new roman",12,"bold"), state="readonly", width=10)
+        search_combo=ttk.Combobox(Search_frame, textvariable= self.var_com_search, font=("times new roman",14,"bold"), state="readonly", width=10)
         search_combo["values"]=("Select", "Roll_No")
         search_combo.current(0)
         search_combo.grid(row=0, column=1, padx=5, pady=10, sticky=W)
 
         self.var_search=StringVar()
-        roll_Entry=Entry(Search_frame,textvariable= self.var_search,width=20,font=("times new roman",12,"bold"),bg="white")
+        roll_Entry=Entry(Search_frame,textvariable= self.var_search,width=20,font=("times new roman",14,"bold"),bg="white")
         roll_Entry.grid(row=0, column=2, padx=5, pady=10, sticky=W)
 
-        search_bt=Button(Search_frame,command=self.search_data,text="Search", width=8,font=("times new roman", 11,"bold"),bg="white")
+        search_bt=Button(Search_frame,command=self.search_data,text="Search", width=8,font=("times new roman", 14,"bold"),bg="white")
         search_bt.grid(row=0,column=3, padx=5)
                 
-        showall_bt=Button(Search_frame,command=self.fetch_data,text="Show all", width=10,font=("times new roman", 11,"bold"),bg="white")
+        showall_bt=Button(Search_frame,command=self.fetch_data,text="Show all", width=10,font=("times new roman", 14,"bold"),bg="white")
         showall_bt.grid(row=0,column=4, padx=5)
 
         #Student details frame
         table_frame=Frame(main_frame, bd=2, bg="white", relief=RIDGE)
-        table_frame.place(x=450, y=100, width=700, height=380)
+        table_frame.place(x=450, y=150, width=750, height=400)
 
         scroll_y=ttk.Scrollbar(table_frame, orient=VERTICAL)
 
@@ -186,11 +178,11 @@ class Student_Registration:
 
         self.student_table.column("name", width=40)
         self.student_table.column("rollno", width=15)
-        self.student_table.column("section", width=5)
-        self.student_table.column("semester", width=5)
+        self.student_table.column("section", width=3)
+        self.student_table.column("semester", width=3)
         self.student_table.column("branch", width=5)
-        self.student_table.column("email", width=70)
-        self.student_table.column("phone", width=20)
+        self.student_table.column("email", width=130)
+        self.student_table.column("phone", width=30)
         self.student_table.column("photo", width=25)
 
         self.student_table.pack(fill=BOTH, expand=1)
@@ -409,7 +401,7 @@ class Student_Registration:
 
                         if cv2.waitKey(30) & 0xFF == ord('q'):
                             break
-                        elif sampleNum > 30:
+                        elif sampleNum > 70:
                             break
                         
                     cam.release()

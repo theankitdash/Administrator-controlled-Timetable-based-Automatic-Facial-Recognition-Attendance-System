@@ -9,8 +9,6 @@ import csv
 import pandas as pd
 from glob import glob
 
-attendance_path = "C:\\Users\\ankit\\Desktop\\New folder\\Roll"
-
 class Attendance_Calculation:
     def __init__(self, root):
         self.root=root
@@ -20,7 +18,7 @@ class Attendance_Calculation:
         self.var_subcode=StringVar()
 
         #Bg Image
-        img=Image.open(r"C:\Users\ankit\Desktop\New folder\itersoa.jpg")
+        img=Image.open(r"C:\Users\ankit\Desktop\New folder\iter.png")
         img=img.resize((1280,720),Image.ANTIALIAS)
         self.photoimg=ImageTk.PhotoImage(img)
 
@@ -32,16 +30,16 @@ class Attendance_Calculation:
 
         conn = mysql.connector.connect(host='localhost', username='root', password='Chiku@3037', database='attendance-system')
         cursor = conn.cursor()
-        cursor.execute("select SUBCODE FROM schedule")
+        cursor.execute("select distinct SUBCODE FROM schedule")
         subcode_li = [row[0] for row in cursor]
         subcode_li.insert(0, 'Select Subject Code')
 
-        subcode_combo=ttk.Combobox(BgImage, values=subcode_li,textvariable=self.var_subcode,font=("times new roman",12,"bold"), state="readonly")
+        subcode_combo=ttk.Combobox(BgImage, values=subcode_li,textvariable=self.var_subcode,font=("times new roman",25,"bold"), state="readonly")
         subcode_combo.current(0)
-        subcode_combo.place(x=500,y=270,width=250,height=50)
+        subcode_combo.place(x=450,y=250,width=350,height=70)
 
-        bt=Button(BgImage,text="VIEW ATTENDANCE",command=self.calculate_attendance,cursor="hand2",font=("times new roman",18,"bold"),bg="darkgreen",fg="white")
-        bt.place(x=500,y=350,width=250,height=50)
+        bt=Button(BgImage,text="VIEW ATTENDANCE",command=self.calculate_attendance,cursor="hand2",font=("times new roman",25,"bold"),bg="darkgreen",fg="white")
+        bt.place(x=450,y=350,width=350,height=70)
 
     def calculate_attendance(self): 
         Subject = self.var_subcode.get()
@@ -68,7 +66,6 @@ class Attendance_Calculation:
 
         root = Tk()
         root.title("Attendance of "+Subject)
-        root.configure(background="black")
         cs = f"C:\\Users\\ankit\\Desktop\\New folder\\Subjects\\{Subject}\\attendance.csv"
         with open(cs) as file:
             reader = csv.reader(file)

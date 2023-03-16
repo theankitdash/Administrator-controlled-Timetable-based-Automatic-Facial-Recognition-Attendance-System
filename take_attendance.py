@@ -14,8 +14,8 @@ import urllib.request
 
 trainedimages = ("classifier.xml")
 face_cascade = 'haarcascade_frontalface_default.xml'
-attendance_path = "C:\\Users\\ankit\\Desktop\\New folder\\Roll"
-url='http://192.168.137.129/capture'
+attendance_path = "C:\\Users\\ankit\\Desktop\\New folder\\Subjects"
+url='http://192.168.137.112/capture'
 
 class Attendance_Registration:
     def __init__(self, root):
@@ -26,7 +26,7 @@ class Attendance_Registration:
         self.var_roll=StringVar()
 
         #Bg Image
-        img=Image.open(r"C:\Users\ankit\Desktop\New folder\itersoa.jpg")
+        img=Image.open(r"C:\Users\ankit\Desktop\New folder\iter.png")
         img=img.resize((1280,720),Image.ANTIALIAS)
         self.photoimg=ImageTk.PhotoImage(img)
 
@@ -36,8 +36,8 @@ class Attendance_Registration:
         title = Label(BgImage, text="ATTENDANCE REGISTRATION", font=("Times new roman", 25,"bold"),bg="white")
         title.place(x=0,y=0,width=1280,height=45)
 
-        bt=Button(BgImage,text="RECOGNIZE",command=self.FillAttendance,cursor="hand2",font=("times new roman",18,"bold"),bg="darkgreen",fg="white")
-        bt.place(x=500,y=270,width=250,height=50)
+        bt=Button(BgImage,text="RECOGNIZE",command=self.FillAttendance,cursor="hand2",font=("times new roman",40,"bold"),bg="darkgreen",fg="white")
+        bt.place(x=450,y=270,width=400,height=150)
 
     
     def FillAttendance(self):

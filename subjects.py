@@ -16,7 +16,7 @@ class Subject:
 
 
         #Bg Image
-        bg_img=Image.open(r"C:\Users\ankit\Desktop\New folder\itersoa.jpg")
+        bg_img=Image.open(r"C:\Users\ankit\Desktop\New folder\iter.png")
         bg_img=bg_img.resize((1280,720),Image.ANTIALIAS)
         self.photobg_img=ImageTk.PhotoImage(bg_img)
 
@@ -29,44 +29,35 @@ class Subject:
         main_frame = Frame(BgImage, bd=2, bg="white")
         main_frame.place(x=20,y=50,width=1240, height = 650)
 
-        #logo
-        logo_img=Image.open(r"C:\Users\ankit\Desktop\New folder\SOA-PNG.png")
-        logo_img=logo_img.resize((250,250),Image.ANTIALIAS)
-        self.photologo_img=ImageTk.PhotoImage(logo_img)
-
-        logoImage = Label(main_frame, image=self.photologo_img, bg="white")
-        logoImage.place(x=0,y=10,width=400,height=250)
-
-
         #Details Frame
-        det_frame=LabelFrame(main_frame, bd=2, relief=RIDGE, text="Subject Details", font=("times new roman",12,"bold"), bg="white")
-        det_frame.place(x=20, y=300, width=400, height=150)
+        det_frame=LabelFrame(main_frame, bd=2, relief=RIDGE, text="Subject Details", font=("times new roman",14,"bold"), bg="white")
+        det_frame.place(x=20, y=150, width=400, height=220)
 
         #SubCode
-        SubCode_label=Label(det_frame,text="Subject Code:", font=("times new roman", 12,"bold"),bg="white")
-        SubCode_label.grid(row=0,column=0, padx=10)
+        SubCode_label=Label(det_frame,text="Subject Code:", font=("times new roman", 14,"bold"),bg="white")
+        SubCode_label.grid(row=0,column=0, padx=10,  pady=15)
 
-        SubCode_Entry=Entry(det_frame, textvariable=self.var_subCode,width=23,font=("times new roman",12,"bold"),bg="white")
+        SubCode_Entry=Entry(det_frame, textvariable=self.var_subCode,width=23,font=("times new roman",14,"bold"),bg="white")
         SubCode_Entry.grid(row=0, column=1, padx=2, pady=10, sticky=W)
 
         #Subject
-        Subject_label=Label(det_frame,text="Subject:", font=("times new roman", 12,"bold"),bg="white")
-        Subject_label.grid(row=1,column=0, padx=10)
+        Subject_label=Label(det_frame,text="Subject:", font=("times new roman", 14,"bold"),bg="white")
+        Subject_label.grid(row=1,column=0, padx=10, pady=10)
 
-        Subject_Entry=Entry(det_frame, textvariable=self.var_sub,width=30,font=("times new roman",12,"bold"),bg="white")
+        Subject_Entry=Entry(det_frame, textvariable=self.var_sub,width=23,font=("times new roman",14,"bold"),bg="white")
         Subject_Entry.grid(row=1, column=1, padx=2, pady=10, sticky=W)
 
         #radiobuttons
         self.var_radio1=StringVar()
         radiobt_1=ttk.Radiobutton(det_frame, variable=self.var_radio1, text="Theory", value="Theory")
-        radiobt_1.grid(row=2,column=0)
+        radiobt_1.grid(row=2,column=0, padx=15, pady=10)
 
         radiobt_1=ttk.Radiobutton(det_frame, variable=self.var_radio1,text="Practical", value="Practical")
-        radiobt_1.grid(row=2,column=1)
+        radiobt_1.grid(row=2,column=1, padx=2, pady=10)
 
         #Buttons
         Bt_frame=Frame(main_frame,bd=2,relief=RIDGE,bg="white")
-        Bt_frame.place(x=20, y=450, width=400,height=35)
+        Bt_frame.place(x=20, y=380, width=404,height=35)
         
         save_photo_bt=Button(Bt_frame,text="Save", command=self.add_data ,width=10,font=("times new roman", 12,"bold"),bg="white")
         save_photo_bt.grid(row=0,column=0)
@@ -83,32 +74,32 @@ class Subject:
         
 
         #Details Fetch Frame
-        Search_frame=LabelFrame(main_frame, bd=2, relief=RIDGE, text="Search System", font=("times new roman",12,"bold"), bg="white")
-        Search_frame.place(x=500, y=10, width=600, height=70)
+        Search_frame=LabelFrame(main_frame, bd=2, relief=RIDGE, text="Search System", font=("times new roman",14,"bold"), bg="white")
+        Search_frame.place(x=450, y=30, width=700, height=80)
 
         #Search
-        search_label=Label(Search_frame,text="Search by:", font=("times new roman", 12,"bold"), width=10,bg="white")
+        search_label=Label(Search_frame,text="Search by:", font=("times new roman", 14,"bold"), width=10,bg="white")
         search_label.grid(row=0, column=0, padx=2, sticky=W)
 
         self.var_com_search=StringVar()
-        search_combo=ttk.Combobox(Search_frame, textvariable= self.var_com_search, font=("times new roman",12,"bold"), state="readonly", width=10)
+        search_combo=ttk.Combobox(Search_frame, textvariable= self.var_com_search, font=("times new roman",14,"bold"), state="readonly", width=10)
         search_combo["values"]=("Select", "subcode")
         search_combo.current(0)
         search_combo.grid(row=0, column=1, padx=5, pady=10, sticky=W)
 
         self.var_search=StringVar()
-        roll_Entry=Entry(Search_frame,textvariable= self.var_search,width=20,font=("times new roman",12,"bold"),bg="white")
+        roll_Entry=Entry(Search_frame,textvariable= self.var_search,width=15,font=("times new roman",14,"bold"),bg="white")
         roll_Entry.grid(row=0, column=2, padx=5, pady=10, sticky=W)
 
-        search_bt=Button(Search_frame,command=self.search_data,text="Search", width=8,font=("times new roman", 11,"bold"),bg="white")
+        search_bt=Button(Search_frame,command=self.search_data,text="Search", width=8,font=("times new roman", 14,"bold"),bg="white")
         search_bt.grid(row=0,column=3, padx=5)
                 
-        showall_bt=Button(Search_frame,command=self.fetch_data,text="Show all", width=10,font=("times new roman", 11,"bold"),bg="white")
+        showall_bt=Button(Search_frame,command=self.fetch_data,text="Show all", width=10,font=("times new roman", 14,"bold"),bg="white")
         showall_bt.grid(row=0,column=4, padx=5)
 
         #Subject details frame
         table_frame=Frame(main_frame, bd=2, bg="white", relief=RIDGE)
-        table_frame.place(x=500, y=100, width=600, height=500)
+        table_frame.place(x=450, y=120, width=700, height=400)
 
         scroll_y=ttk.Scrollbar(table_frame, orient=VERTICAL)
 

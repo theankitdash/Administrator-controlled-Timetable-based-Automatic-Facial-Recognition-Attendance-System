@@ -11,6 +11,10 @@ class Time_Schedule:
         self.root.geometry("1280x720+0+0")
         self.root.title("Time Schdeule")
 
+        self.var_Sec=StringVar()
+        self.var_branch=StringVar()
+        self.var_Id=StringVar()
+
         #Bg Image
         img=Image.open(r"C:\Users\ankit\Desktop\New folder\itersoa.jpg")
         img=img.resize((1280,720),Image.ANTIALIAS)
@@ -25,168 +29,146 @@ class Time_Schedule:
         main_frame = Frame(BgImage, bd=2, bg="white")
         main_frame.place(x=20,y=50,width=1240, height = 650)
 
-        days = 5
-        day_names = ['Monday', 'Tuesday', 'Wednesday', 'Thrusday', 'Friday']
+        # get branch and section list from the database
+        conn = mysql.connector.connect(host='localhost', username='root', password='Chiku@3037', database='attendance-system')
+        cursor = conn.cursor()
+        cursor.execute("SELECT DISTINCT BRANCH, SECTION FROM STUDENT")
+        results = cursor.fetchall()
+        br_li = list(set([row[0] for row in results]))
+        sec_li = list(set([row[1] for row in results]))
+        br_li.insert(0, 'Select Branch')
+        sec_li.insert(0, 'Select Section')
+
+        label_br_sec=Label(main_frame,text="Select Branch and Section: ", font=("times new roman", 14,"bold"),bg="white")
+        label_br_sec.grid(row=3,column=0, padx=10, pady=10, sticky=W)
+
+        branch_combo=ttk.Combobox(main_frame, values=br_li,textvariable=self.var_branch,width=20,font=("times new roman",13,"bold"), state="readonly")
+        branch_combo.current(0)
+        branch_combo.grid(row=3, column=1, padx=10, pady=10, sticky=W)
+
+        sec_combo=ttk.Combobox(main_frame, values=sec_li,textvariable=self.var_Sec,width=20,font=("times new roman",13,"bold"), state="readonly")
+        sec_combo.current(0)
+        sec_combo.grid(row=3, column=2, padx=10, pady=10, sticky=W)
+
+        #TimeTable frame
+        table = Frame(main_frame, bd=2, bg="white")
+        table.place(x=10, y=75, width=1200, height=900)
+
+        tt = Frame(table, bg="white")
+        tt.place(x=10, y=10, width=1240, height=650)
+
+        days = 6
+        day_names = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
         periods = 6
         period_names = list(map(lambda x: 'Period ' + str(x), range(1, 6+1)))
-        butt_grid = []
-    
 
-        def select_sec():
-            global section
-            global branch
-            section = str(combo1.get())
-            branch = str(combo2.get())
-            update_table()
-     
+        for i in range(days):
+            b = Label(tt, text=day_names[i], font=('Times new roman', 15, 'bold'), width=12, height=3, bd=5, relief=RIDGE, bg="white")
+            b.grid(row=i+1, column=0)
 
-        def update_table():
+        for j in range(periods):
+            b = Label(tt, text=period_names[j], font=('Times new roman', 15, 'bold'), width=12, height=2, bd=5, relief=RIDGE, bg="white")
+            b.grid(row=0, column=j+1)
+
+        
+
+        def update_data():
+            branch=self.var_branch.get()
+            section=self.var_Sec.get()  
+
+            b = [[None for j in range(periods)] for i in range(days)]      
             for i in range(days):
                 for j in range(periods):
                     conn = mysql.connector.connect(host='localhost', username='root', password='Chiku@3037', database='attendance-system')
                     cursor = conn.cursor()
                     cursor.execute(f"SELECT SUBCODE, FID FROM SCHEDULE\
-                        WHERE DAYID={i+1} AND PERIODID={j+1} AND BRANCH='{branch}' AND SECTION='{section}'")
+                        WHERE ID='{branch+'-'+section+'-'+str((i+1)*10+(j+1))}'")
                     cursor = list(cursor)
+                    b[i][j] = Button(tt, text='Hello World!', font=('Times new roman', 12), width=12, height=3, bd=5, relief=RIDGE, bg="white",
+                        justify=CENTER, command=lambda x=i, y=j: change_subject(x,y))
+                    b[i][j].grid(row=i+1, column=j+1)
                     if len(cursor) != 0:
-                        butt_grid[i][j]['text'] = str(cursor[0][0]) + '\n' + str(cursor[0][1])
-                        butt_grid[i][j].update()
-                        print(i, j, cursor[0][0])
+                        b[i][j]['text'] = str(cursor[0][0]) + '\n' + str(cursor[0][1])
+                        b[i][j].update()
                     else:
-                        butt_grid[i][j]['text'] = "No Class"
-                        butt_grid[i][j].update()    
+                        b[i][j]['text'] = "No Class"
+                        b[i][j].update() 
 
-        table = Frame(main_frame)
-        table.pack()
+        #Button    
+        OK_bt=Button(main_frame,text="OK",command=update_data, width=10,font=("times new roman", 12,"bold"),bg="white")
+        OK_bt.grid(row=3,column=3, padx=10, pady=10)  
 
-        first_half = Frame(table)
-        first_half.pack(side='left')
+        def change_subject(d,p):  
+            root=Tk() 
+            root.config(bg="white")
 
-        for i in range(days):
-            b = Label(first_half, text=day_names[i], font=('Consolas', 12, 'bold'), width=9, height=2, bd=5, relief='raised')
-            b.grid(row=i+1, column=0)
+            Label(root,text='Select Subject',font=('Times new roman', 12, 'bold'), bg="white").pack()
+            Label(root,text=f'Day: {day_names[d]}',font=('Times new roman', 12), bg="white").pack()
+            Label(root,text=f'Period: {period_names[p]}',font=('Times new roman', 12), bg="white").pack()
 
+            self.tt=ttk.Treeview(root, column=("faculty", "subcode"))
 
-        for i in range(periods):
-            b = Label(first_half)
-            b.grid(row=0, column=i+1)
-            b.config(text=period_names[i], font=('Consolas', 12, 'bold'), width=9, height=1, bd=5, relief='raised')    
+            self.tt.heading("faculty", text="Faculty")
+            self.tt.heading("subcode", text="Subject Code")
 
-        for i in range(days):
-            b = []
-            for j in range(periods):
+            self.tt["show"]="headings"
 
-                bb = Button(first_half)
-                bb.grid(row=i+1, column=j+1)
-                bb.config(text='Hello World!', font=('Consolas', 10), width=13, height=3, bd=5, relief='raised', wraplength=80,
-                    justify='center', command=lambda x=i, y=j: process_button(x, y))
-                b.append(bb)
-
-            butt_grid.append(b)
-            b = []
-
-        #Select Branch
-        sec_select_f = Frame(main_frame, pady=15)
-        sec_select_f.pack()
-
-        Label(sec_select_f, text='Select Branch and Section:  ',font=('Consolas', 12, 'bold')).pack(side=LEFT)    
-        
-        conn = mysql.connector.connect(host='localhost', username='root', password='Chiku@3037', database='attendance-system')
-        cursor = conn.cursor()
-        cursor.execute("SELECT DISTINCT BRANCH FROM SCHEDULE")
-        br_li = [row[0] for row in cursor]  
-
-        combo2 = ttk.Combobox(sec_select_f, values=br_li,)
-        combo2.pack(side=LEFT)
-        combo2.current(0)
-
-        cursor.execute("SELECT DISTINCT SECTION FROM SCHEDULE")
-        sec_li = [row[0] for row in cursor]
-        
-        combo1 = ttk.Combobox(sec_select_f, values=sec_li,)
-        combo1.pack(side=LEFT, padx=10)
-        combo1.current(0)
-
-        b = Button(sec_select_f, text="OK",font=('Consolas', 12, 'bold'), padx=10, command=select_sec)
-        b.pack(side=LEFT, padx=10)
-        b.invoke()
-
-
-        def process_button(d, p):
-            add_p = Tk()
-
-            # get subject code list from the database
-            conn = mysql.connector.connect(host='localhost', username='root', password='Chiku@3037', database='attendance-system')
-            cursor = conn.cursor()
-            cursor.execute("SELECT SUBCODE FROM SUBJECTS")
-            subcode_li = [row[0] for row in cursor]
-            subcode_li.insert(0, 'NULL')
-
-            # Label10
-            Label(add_p,text='Select Subject',font=('Consolas', 12, 'bold')).pack()
-
-            Label(add_p,text=f'Day: {day_names[d]}',font=('Consolas', 12)).pack()
-            Label(add_p,text=f'Period: {p+1}',font=('Consolas', 12)).pack()
-
-            tree = ttk.Treeview(add_p)
-            tree['columns'] = ('one', 'two')
-            tree.column("#0", width=0, stretch=NO)
-            tree.column("one", width=70, stretch=NO)
-            tree.column("two", width=80, stretch=NO)
-            tree.heading('#0', text="")
-            tree.heading('one', text="Faculty")
-            tree.heading('two', text="Subject Code")
+            self.tt.column("faculty", width=80)
+            self.tt.column("subcode", width=100)
 
             conn = mysql.connector.connect(host='localhost', username='root', password='Chiku@3037', database='attendance-system')
             cursor = conn.cursor()
             cursor.execute("SELECT FACULTY.ID, FACULTY.SUBCODE_1, FACULTY.SUBCODE_2, SUBJECTS.SUBCODE\
             FROM FACULTY, SUBJECTS\
             WHERE FACULTY.SUBCODE_1=SUBJECTS.SUBCODE OR FACULTY.SUBCODE_2=SUBJECTS.SUBCODE")
-            for row in cursor:
+            result=cursor.fetchall()
+
+            for row in result:
                 
-                tree.insert(
-                    "",
-                    0,
-                    values=(row[0],row[-1])
-                )
-            tree.insert("", 0, value=('NULL', 'NULL'))
-            tree.pack(pady=10, padx=30)
+                self.tt.insert("", 0, values=(row[0],row[-1]))
 
-            Button(add_p, text="OK",padx=15,command=lambda x=d, y=p, z=tree, d=add_p: update_p(x, y, z, d)).pack(pady=20)
+            self.tt.insert("", 0, value=('NULL', 'NULL'))
+            self.tt.pack(pady=10, padx=30)
 
-            add_p.mainloop()
+            OK_bt = Button(root, text="OK",padx=15,command=lambda x=d, y=p, z=self.tt, d=root: update_subject(x, y, z, d), bg="white").pack(pady=20)
 
-        def update_p(d, p, tree, parent):
+        def update_subject(d,p,tree, parent):
+            branch=self.var_branch.get()
+            section=self.var_Sec.get()
+
+
             conn = mysql.connector.connect(host='localhost', username='root', password='Chiku@3037', database='attendance-system')
             cursor = conn.cursor()
+            cursor.execute("Select ID from Schedule")
+            result=cursor.fetchall()
+
             try:
                 if len(tree.selection()) > 1:
                     messagebox.showerror("Bad Select", "Select one subject at a time!")
                     parent.destroy()
                     return
-                row = tree.item(tree.selection()[0])['values']
-                if row[0] == 'NULL' and row[1] == 'NULL':
-                    
-                    cursor.execute(f"DELETE FROM SCHEDULE WHERE ID='{section+str((d+1)*10+(p+1))}'")
-                    conn.commit()
-                    update_table()
-                    parent.destroy()
-                    return
 
-                conn.commit()
+                row = tree.item(tree.selection()[0])['values']
+                if row[0] == 'NULL' and row[-1] == 'NULL':
+                    cursor.execute(f"DELETE FROM SCHEDULE WHERE ID='{branch+'-'+section+'-'+str((d+1)*10+(p+1))}'")
+                    conn.commit()
+                    update_data()
+                    parent.destroy()
+                    return   
+
                 cursor.execute(f"REPLACE INTO SCHEDULE (ID, DAYID, PERIODID, SUBCODE, BRANCH, SECTION, FID)\
-                    VALUES ('{section+str((d+1)*10+(p+1))}', {d+1}, {p+1}, '{row[1]}', '{branch} ' , '{section}', '{row[0]}')")
+                    VALUES ('{branch+'-'+section+'-'+str((d+1)*10+(p+1))}', {d+1}, {p+1}, '{row[-1]}', '{branch} ' , '{section}', '{row[0]}')")
                 conn.commit()
-                update_table()
+                update_data()     
 
             except IndexError:
                 messagebox.showerror("Bad Select", "Please select a subject from the list!")
                 parent.destroy()
-                return
+                return        
 
-            parent.destroy()    
+            parent.destroy()        
 
 if __name__ == "__main__":
     root=Tk()  
     obj=Time_Schedule(root)
-    root.mainloop()        
+    root.mainloop()          

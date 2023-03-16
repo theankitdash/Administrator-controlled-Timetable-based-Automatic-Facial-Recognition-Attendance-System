@@ -60,7 +60,7 @@ class Attendance_Registration:
                 Id, predict = recognizer.predict(gray[y : y + h, x : x + w])
                 confidence=int((100*(1-predict/300)))
                         
-                if confidence>60:
+                if confidence>70:
                     global aa
                     global date
                     global timeStamp
@@ -108,7 +108,7 @@ class Attendance_Registration:
             result = cursor.fetchone()
 
             query = "select SUBCODE from schedule where DAYID= %s AND PERIODID = %s AND BRANCH = %s" 
-            cursor.execute(query, (weekday+1, period, result[0],))
+            cursor.execute(query, (weekday, period, result[0],))
             result1 = cursor.fetchall()
             result_str = ""
 
@@ -145,7 +145,7 @@ class Attendance_Registration:
             time_attendance()
 
         # Within the 11:00 AM - 11:10 AM interval
-        elif datetime.time(11, 00) <= now < datetime.time(11, 10): 
+        elif datetime.time(11, 00) <= now < datetime.time(15, 10): 
             period = period_names[2]
             time_attendance()
 
@@ -155,7 +155,7 @@ class Attendance_Registration:
             time_attendance()
             
         # Within the 1:00 PM - 1:10 PM interval
-        elif datetime.time(13, 00) <= now < datetime.time(20, 10): 
+        elif datetime.time(13, 00) <= now < datetime.time(13, 10): 
             period = period_names[4]
             time_attendance()
 
