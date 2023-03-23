@@ -14,8 +14,8 @@ import urllib.request
 
 trainedimages = ("classifier.xml")
 face_cascade = 'haarcascade_frontalface_default.xml'
-attendance_path = "C:\\Users\\ankit\\Desktop\\New folder\\Subjects"
-url='http://192.168.137.112/capture'
+attendance_path = "D:\\Projects\\SDP\\Subjects"
+url='http://192.168.137.200/capture'
 
 class Attendance_Registration:
     def __init__(self, root):
@@ -26,7 +26,7 @@ class Attendance_Registration:
         self.var_roll=StringVar()
 
         #Bg Image
-        img=Image.open(r"C:\Users\ankit\Desktop\New folder\iter.png")
+        img=Image.open(r"D:\Projects\SDP\iter.png")
         img=img.resize((1280,720),Image.ANTIALIAS)
         self.photoimg=ImageTk.PhotoImage(img)
 

@@ -18,7 +18,7 @@ class Attendance_Calculation:
         self.var_subcode=StringVar()
 
         #Bg Image
-        img=Image.open(r"C:\Users\ankit\Desktop\New folder\iter.png")
+        img=Image.open(r"D:\Projects\SDP\iter.png")
         img=img.resize((1280,720),Image.ANTIALIAS)
         self.photoimg=ImageTk.PhotoImage(img)
 
@@ -46,10 +46,10 @@ class Attendance_Calculation:
         if Subject=="":
             message.showinfo('Please enter the Subject Code')    
         os.chdir(
-            f"C:\\Users\\ankit\\Desktop\\New folder\\Subjects\\{Subject}"
+            f"D:\\Projects\\SDP\\Subjects\\{Subject}"
         )
         filenames = glob(
-            f"C:\\Users\\ankit\\Desktop\\New folder\\Subjects\\{Subject}\\{Subject}*.csv"
+            f"D:\\Projects\\SDP\\Subjects\\{Subject}\\{Subject}*.csv"
         )
 
         df = [pd.read_csv(f) for f in filenames]
@@ -66,7 +66,7 @@ class Attendance_Calculation:
 
         root = Tk()
         root.title("Attendance of "+Subject)
-        cs = f"C:\\Users\\ankit\\Desktop\\New folder\\Subjects\\{Subject}\\attendance.csv"
+        cs = f"D:\\Projects\\SDP\\Subjects\\{Subject}\\attendance.csv"
         with open(cs) as file:
             reader = csv.reader(file)
             r = 0

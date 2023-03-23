@@ -13,7 +13,7 @@ import datetime
 
 trainedimages = ("classifier.xml")
 face_cascade = 'haarcascade_frontalface_default.xml'
-attendance_path = "C:\\Users\\ankit\\Desktop\\New folder\\Subjects"
+attendance_path = "D:\\Projects\\SDP\\Subjects"
 
 class Attendance_Registration:
     def __init__(self, root):
@@ -22,7 +22,7 @@ class Attendance_Registration:
         self.root.title("Attendance Registration")
 
         #Bg Image
-        img=Image.open(r"C:\Users\ankit\Desktop\New folder\itersoa.jpg")
+        img=Image.open(r"D:\Projects\SDP\itersoa.jpg")
         img=img.resize((1280,720),Image.ANTIALIAS)
         self.photoimg=ImageTk.PhotoImage(img)
 

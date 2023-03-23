@@ -18,7 +18,7 @@ class Faculty_Registration:
 
 
         #Bg Image
-        bg_img=Image.open(r"C:\Users\ankit\Desktop\New folder\iter.png")
+        bg_img=Image.open(r"D:\Projects\SDP\iter.png")
         bg_img=bg_img.resize((1280,720),Image.ANTIALIAS)
         self.photobg_img=ImageTk.PhotoImage(bg_img)
 

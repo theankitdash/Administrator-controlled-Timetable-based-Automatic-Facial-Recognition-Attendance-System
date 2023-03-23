@@ -15,7 +15,7 @@ class Attendance_System:
         self.root.title("Attendance Software")
 
         #Bg Image
-        img=Image.open(r"C:\Users\ankit\Desktop\New folder\iter.png")
+        img=Image.open(r"D:\Projects\SDP\iter.png")
         img=img.resize((1280,720),Image.ANTIALIAS)
         self.photoimg=ImageTk.PhotoImage(img)
 
@@ -26,7 +26,7 @@ class Attendance_System:
         title.place(x=0,y=0,width=1280,height=45)
         
         #Student Button
-        Student_Reg = Image.open(r"C:\Users\ankit\Desktop\New folder\Student-Reg.png")
+        Student_Reg = Image.open(r"D:\Projects\SDP\Student-Reg.png")
         Student_Reg = Student_Reg.resize((200,200), Image.ANTIALIAS)
         self.photoStudent_Reg=ImageTk.PhotoImage(Student_Reg)
 
@@ -37,7 +37,7 @@ class Attendance_System:
         bt_1.place(x=100,y=300, width=200, height=40)
 
         #Faculty Button
-        Faculty_Reg = Image.open(r"C:\Users\ankit\Desktop\New folder\teacher.png")
+        Faculty_Reg = Image.open(r"D:\Projects\SDP\teacher.png")
         Faculty_Reg = Faculty_Reg.resize((200,200), Image.ANTIALIAS)
         self.photoFaculty_Reg=ImageTk.PhotoImage(Faculty_Reg)
 
@@ -48,7 +48,7 @@ class Attendance_System:
         bt_1.place(x=500,y=300, width=200, height=40)
 
         #Subject Button
-        Subject_Reg = Image.open(r"C:\Users\ankit\Desktop\New folder\subject.jpg")
+        Subject_Reg = Image.open(r"D:\Projects\SDP\subject.jpg")
         Subject_Reg = Subject_Reg.resize((200,200), Image.ANTIALIAS)
         self.photoSubject_Reg=ImageTk.PhotoImage(Subject_Reg)
 
@@ -59,7 +59,7 @@ class Attendance_System:
         bt_1.place(x=900,y=300, width=200, height=40)
 
         #Time Table
-        TimeTb = Image.open(r"C:\Users\ankit\Desktop\New folder\timetable.jpg")
+        TimeTb = Image.open(r"D:\Projects\SDP\timetable.jpg")
         TimeTb = TimeTb.resize((200,200), Image.ANTIALIAS)
         self.photoTimeTb=ImageTk.PhotoImage(TimeTb)
 
@@ -71,7 +71,7 @@ class Attendance_System:
 
 
         #Attendance Registration
-        Attendance_Det = Image.open(r"C:\Users\ankit\Desktop\New folder\take-att.jpg")
+        Attendance_Det = Image.open(r"D:\Projects\SDP\take-att.jpg")
         Attendance_Det = Attendance_Det.resize((200,200), Image.ANTIALIAS)
         self.photoAttendance_Det=ImageTk.PhotoImage(Attendance_Det)
 
@@ -82,7 +82,7 @@ class Attendance_System:
         bt_1.place(x=500,y=600, width=200, height=40)
 
         #Calculate Attendance
-        Attendance_cal = Image.open(r"C:\Users\ankit\Desktop\New folder\atten.jpg")
+        Attendance_cal = Image.open(r"D:\Projects\SDP\atten.jpg")
         Attendance_cal = Attendance_cal.resize((200,200), Image.ANTIALIAS)
         self.photoAttendance_cal=ImageTk.PhotoImage(Attendance_cal)
 
