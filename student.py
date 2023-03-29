@@ -11,7 +11,7 @@ import csv
 class Student_Registration:
     def __init__(self, root):
         self.root=root
-        self.root.geometry("1280x720+0+0")
+        self.root.geometry("1180x580+0+0")
         self.root.title("Attendance System")
 
         #variables
@@ -24,23 +24,15 @@ class Student_Registration:
         self.var_ph=StringVar()
 
 
-        #Bg Image
-        bg_img=Image.open(r"D:\Projects\SDP\iter.png")
-        bg_img=bg_img.resize((1280,720),Image.ANTIALIAS)
-        self.photobg_img=ImageTk.PhotoImage(bg_img)
+        title = Label(self.root, text="Student Registration", font=("Times new roman", 25,"bold"),bg="white")
+        title.place(x=0,y=0,width=1180,height=40)
 
-        BgImage = Label(self.root, image=self.photobg_img)
-        BgImage.place(x=0,y=0,width=1280,height=720)
-
-        title = Label(BgImage, text="Student Registration", font=("Times new roman", 25,"bold"),bg="white")
-        title.place(x=0,y=0,width=1280,height=45)
-
-        main_frame = Frame(BgImage, bd=2, bg="white")
-        main_frame.place(x=20,y=50,width=1240, height = 650)
+        main_frame = Frame(self.root, bd=2, bg="white")
+        main_frame.place(x=0,y=45,width=1180, height = 550)
 
         #Details Frame
         det_frame=LabelFrame(main_frame, bd=2, relief=RIDGE, text="STUDENT DETAILS", font=("times new roman",14,"bold"), bg="white")
-        det_frame.place(x=20, y=30, width=400, height=430)
+        det_frame.place(x=5, y=10, width=400, height=430)
 
         #Name
         Name_label=Label(det_frame,text="Name:", font=("times new roman", 14,"bold"),bg="white")
@@ -106,7 +98,7 @@ class Student_Registration:
 
         #Buttons
         Bt_frame=Frame(main_frame,bd=2,relief=RIDGE,bg="white")
-        Bt_frame.place(x=20, y=475, width=404,height=35)
+        Bt_frame.place(x=5, y=450, width=404,height=35)
         
         save_photo_bt=Button(Bt_frame,text="Save", command=self.add_data ,width=10,font=("times new roman", 12,"bold"),bg="white")
         save_photo_bt.grid(row=0,column=0)
@@ -122,7 +114,7 @@ class Student_Registration:
 
         #Button
         Bt_frame1=Frame(main_frame,bd=2,relief=RIDGE,bg="white")
-        Bt_frame1.place(x=20, y=510, width=402,height=35)
+        Bt_frame1.place(x=5, y=485, width=402,height=35)
 
         take_photo_bt=Button(Bt_frame1,text="Take Photo", command=self.data_generate, width=21,font=("times new roman", 12,"bold"),bg="white")
         take_photo_bt.grid(row=0,column=0)
@@ -132,7 +124,7 @@ class Student_Registration:
 
         #Details Fetch Frame
         Search_frame=LabelFrame(main_frame, bd=2, relief=RIDGE, text="SEARCH SYSTEM", font=("times new roman",15,"bold"), bg="white")
-        Search_frame.place(x=450, y=30, width=750, height=90)
+        Search_frame.place(x=420, y=10, width=750, height=90)
 
         #Search
         search_label=Label(Search_frame,text="Search by:", font=("times new roman", 14,"bold"), width=10,bg="white")
@@ -156,7 +148,7 @@ class Student_Registration:
 
         #Student details frame
         table_frame=Frame(main_frame, bd=2, bg="white", relief=RIDGE)
-        table_frame.place(x=450, y=150, width=750, height=400)
+        table_frame.place(x=420, y=110, width=750, height=410)
 
         scroll_y=ttk.Scrollbar(table_frame, orient=VERTICAL)
 
@@ -168,8 +160,8 @@ class Student_Registration:
         self.student_table.heading("name", text="Name")
         self.student_table.heading("rollno", text="Roll_No")
         self.student_table.heading("section", text="Section")
-        self.student_table.heading("semester", text="Semester")
         self.student_table.heading("branch", text="Branch")
+        self.student_table.heading("semester", text="Semester")
         self.student_table.heading("email", text="Email")
         self.student_table.heading("phone", text="Phone")
         self.student_table.heading("photo", text="Photo Sample")
@@ -179,8 +171,8 @@ class Student_Registration:
         self.student_table.column("name", width=40)
         self.student_table.column("rollno", width=15)
         self.student_table.column("section", width=3)
-        self.student_table.column("semester", width=3)
         self.student_table.column("branch", width=5)
+        self.student_table.column("semester", width=3)
         self.student_table.column("email", width=130)
         self.student_table.column("phone", width=30)
         self.student_table.column("photo", width=25)
@@ -202,8 +194,8 @@ class Student_Registration:
                                                             self.var_Name.get(),
                                                             self.var_Roll.get(),
                                                             self.var_Sec.get(),
-                                                            self.var_Sem.get(),
                                                             self.var_branch.get(),
+                                                            self.var_Sem.get(),
                                                             self.var_Email.get(),
                                                             self.var_ph.get(),
                                                             self.var_radio1.get()

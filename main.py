@@ -11,86 +11,86 @@ from view_attendance import Attendance_Calculation
 class Attendance_System:
     def __init__(self, root):
         self.root=root
-        self.root.geometry("1280x720+0+0")
+        self.root.geometry("1080x720+0+0")
         self.root.title("Attendance Software")
 
         #Bg Image
         img=Image.open(r"D:\Projects\SDP\iter.png")
-        img=img.resize((1280,720),Image.ANTIALIAS)
+        img=img.resize((1080,720),Image.ANTIALIAS)
         self.photoimg=ImageTk.PhotoImage(img)
 
         BgImage = Label(self.root, image=self.photoimg)
-        BgImage.place(x=0,y=0,width=1280,height=720)
+        BgImage.place(x=0,y=0,width=1080,height=720)
 
         title = Label(BgImage, text="ATTENDANCE SYSTEM", font=("Times new roman", 25,"bold"),bg="white")
-        title.place(x=0,y=0,width=1280,height=45)
+        title.place(x=0,y=0,width=1080,height=45)
         
         #Student Button
         Student_Reg = Image.open(r"D:\Projects\SDP\Student-Reg.png")
-        Student_Reg = Student_Reg.resize((200,200), Image.ANTIALIAS)
+        Student_Reg = Student_Reg.resize((250,250), Image.ANTIALIAS)
         self.photoStudent_Reg=ImageTk.PhotoImage(Student_Reg)
 
         bt = Button(BgImage,image=self.photoStudent_Reg, command=self.student_details, cursor="hand2")
-        bt.place(x=100,y=100,width=200,height=200)
+        bt.place(x=10,y=70,width=250,height=250)
 
-        bt_1 = Button(BgImage, text= "Student Registration",command=self.student_details, cursor="hand2",font=("times new roman",15,"bold"),fg="blue", bg="white")
-        bt_1.place(x=100,y=300, width=200, height=40)
+        bt_1 = Button(BgImage, text= "Student Registration",command=self.student_details, cursor="hand2",font=("times new roman",18,"bold"),fg="blue", bg="white")
+        bt_1.place(x=10,y=320, width=250, height=40)
 
         #Faculty Button
         Faculty_Reg = Image.open(r"D:\Projects\SDP\teacher.png")
-        Faculty_Reg = Faculty_Reg.resize((200,200), Image.ANTIALIAS)
+        Faculty_Reg = Faculty_Reg.resize((250,250), Image.ANTIALIAS)
         self.photoFaculty_Reg=ImageTk.PhotoImage(Faculty_Reg)
 
         bt = Button(BgImage,image=self.photoFaculty_Reg, command=self.faculty_details, cursor="hand2")
-        bt.place(x=500,y=100,width=200,height=200)
+        bt.place(x=400,y=70,width=250,height=250)
 
-        bt_1 = Button(BgImage, text= "Faculty Registration",command=self.faculty_details, cursor="hand2",font=("times new roman",15,"bold"),fg="blue", bg="white")
-        bt_1.place(x=500,y=300, width=200, height=40)
+        bt_1 = Button(BgImage, text= "Faculty Registration",command=self.faculty_details, cursor="hand2",font=("times new roman",18,"bold"),fg="blue", bg="white")
+        bt_1.place(x=400,y=320, width=250, height=40)
 
         #Subject Button
         Subject_Reg = Image.open(r"D:\Projects\SDP\subject.jpg")
-        Subject_Reg = Subject_Reg.resize((200,200), Image.ANTIALIAS)
+        Subject_Reg = Subject_Reg.resize((250,250), Image.ANTIALIAS)
         self.photoSubject_Reg=ImageTk.PhotoImage(Subject_Reg)
 
         bt = Button(BgImage,image=self.photoSubject_Reg, command=self.subject_details, cursor="hand2")
-        bt.place(x=900,y=100,width=200,height=200)
+        bt.place(x=800,y=70,width=250,height=250)
 
-        bt_1 = Button(BgImage, text= "Subjects",command=self.subject_details, cursor="hand2",font=("times new roman",15,"bold"),fg="blue", bg="white")
-        bt_1.place(x=900,y=300, width=200, height=40)
+        bt_1 = Button(BgImage, text= "Subjects",command=self.subject_details, cursor="hand2",font=("times new roman",18,"bold"),fg="blue", bg="white")
+        bt_1.place(x=800,y=320, width=250, height=40)
 
         #Time Table
         TimeTb = Image.open(r"D:\Projects\SDP\timetable.jpg")
-        TimeTb = TimeTb.resize((200,200), Image.ANTIALIAS)
+        TimeTb = TimeTb.resize((250,250), Image.ANTIALIAS)
         self.photoTimeTb=ImageTk.PhotoImage(TimeTb)
 
         TimeTb_bt = Button(BgImage,image=self.photoTimeTb, command=self.time_table,cursor="hand2")
-        TimeTb_bt.place(x=100,y=400,width=200,height=200)
+        TimeTb_bt.place(x=10,y=400,width=250,height=250)
 
-        TimeTb_bt_1 = Button(BgImage, text= "Time Table", command=self.time_table,cursor="hand2",font=("times new roman",15,"bold"),fg="blue", bg="white")
-        TimeTb_bt_1.place(x=100,y=600, width=200, height=40)
+        TimeTb_bt_1 = Button(BgImage, text= "Time Table", command=self.time_table,cursor="hand2",font=("times new roman",18,"bold"),fg="blue", bg="white")
+        TimeTb_bt_1.place(x=10,y=650, width=250, height=40)
 
 
         #Attendance Registration
         Attendance_Det = Image.open(r"D:\Projects\SDP\take-att.jpg")
-        Attendance_Det = Attendance_Det.resize((200,200), Image.ANTIALIAS)
+        Attendance_Det = Attendance_Det.resize((250,250), Image.ANTIALIAS)
         self.photoAttendance_Det=ImageTk.PhotoImage(Attendance_Det)
 
         bt = Button(BgImage,image=self.photoAttendance_Det, command=self.recognize_attendance,cursor="hand2")
-        bt.place(x=500,y=400,width=200,height=200)
+        bt.place(x=400,y=400,width=250,height=250)
 
-        bt_1 = Button(BgImage, text= "Take Attendance", command=self.recognize_attendance,cursor="hand2",font=("times new roman",15,"bold"),fg="blue", bg="white")
-        bt_1.place(x=500,y=600, width=200, height=40)
+        bt_1 = Button(BgImage, text= "Take Attendance", command=self.recognize_attendance,cursor="hand2",font=("times new roman",18,"bold"),fg="blue", bg="white")
+        bt_1.place(x=400,y=650, width=250, height=40)
 
         #Calculate Attendance
         Attendance_cal = Image.open(r"D:\Projects\SDP\atten.jpg")
-        Attendance_cal = Attendance_cal.resize((200,200), Image.ANTIALIAS)
+        Attendance_cal = Attendance_cal.resize((250,250), Image.ANTIALIAS)
         self.photoAttendance_cal=ImageTk.PhotoImage(Attendance_cal)
 
         bt = Button(BgImage,image=self.photoAttendance_cal, command=self.attendance_calculate,cursor="hand2")
-        bt.place(x=900,y=400,width=200,height=200)
+        bt.place(x=800,y=400,width=250,height=250)
 
-        bt_1 = Button(BgImage, text= "View Attendance", command=self.attendance_calculate,cursor="hand2",font=("times new roman",15,"bold"),fg="blue", bg="white")
-        bt_1.place(x=900,y=600, width=200, height=40)
+        bt_1 = Button(BgImage, text= "View Attendance", command=self.attendance_calculate,cursor="hand2",font=("times new roman",18,"bold"),fg="blue", bg="white")
+        bt_1.place(x=800,y=650, width=250, height=40)
 
 
     def student_details(self):

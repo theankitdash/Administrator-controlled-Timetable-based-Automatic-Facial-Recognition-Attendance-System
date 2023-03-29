@@ -7,31 +7,21 @@ import mysql.connector
 class Subject:
     def __init__(self, root):
         self.root=root
-        self.root.geometry("1280x720+0+0")
+        self.root.geometry("1140x370+0+0")
         self.root.title("Subject Details")
-
 
         self.var_sub=StringVar()
         self.var_subCode=StringVar()
 
-
-        #Bg Image
-        bg_img=Image.open(r"D:\Projects\SDP\iter.png")
-        bg_img=bg_img.resize((1280,720),Image.ANTIALIAS)
-        self.photobg_img=ImageTk.PhotoImage(bg_img)
-
-        BgImage = Label(self.root, image=self.photobg_img)
-        BgImage.place(x=0,y=0,width=1280,height=720)
-
-        title = Label(BgImage, text="SUBJECT DETAILS", font=("Times new roman", 25,"bold"),bg="white")
+        title = Label(self.root, text="SUBJECT DETAILS", font=("Times new roman", 25,"bold"),bg="white")
         title.place(x=0,y=0,width=1280,height=45)
 
-        main_frame = Frame(BgImage, bd=2, bg="white")
-        main_frame.place(x=20,y=50,width=1240, height = 650)
+        main_frame = Frame(self.root, bd=2, bg="white")
+        main_frame.place(x=0,y=50,width=1240, height = 400)
 
         #Details Frame
         det_frame=LabelFrame(main_frame, bd=2, relief=RIDGE, text="Subject Details", font=("times new roman",14,"bold"), bg="white")
-        det_frame.place(x=20, y=150, width=400, height=220)
+        det_frame.place(x=5, y=10, width=400, height=220)
 
         #SubCode
         SubCode_label=Label(det_frame,text="Subject Code:", font=("times new roman", 14,"bold"),bg="white")
@@ -57,7 +47,7 @@ class Subject:
 
         #Buttons
         Bt_frame=Frame(main_frame,bd=2,relief=RIDGE,bg="white")
-        Bt_frame.place(x=20, y=380, width=404,height=35)
+        Bt_frame.place(x=5, y=250, width=404,height=35)
         
         save_photo_bt=Button(Bt_frame,text="Save", command=self.add_data ,width=10,font=("times new roman", 12,"bold"),bg="white")
         save_photo_bt.grid(row=0,column=0)
@@ -71,11 +61,9 @@ class Subject:
         Update_bt=Button(Bt_frame,text="Update",command=self.update_data, width=10,font=("times new roman", 12,"bold"),bg="white")
         Update_bt.grid(row=0,column=3)
 
-        
-
         #Details Fetch Frame
         Search_frame=LabelFrame(main_frame, bd=2, relief=RIDGE, text="Search System", font=("times new roman",14,"bold"), bg="white")
-        Search_frame.place(x=450, y=30, width=700, height=80)
+        Search_frame.place(x=420, y=10, width=700, height=80)
 
         #Search
         search_label=Label(Search_frame,text="Search by:", font=("times new roman", 14,"bold"), width=10,bg="white")
@@ -99,7 +87,7 @@ class Subject:
 
         #Subject details frame
         table_frame=Frame(main_frame, bd=2, bg="white", relief=RIDGE)
-        table_frame.place(x=450, y=120, width=700, height=400)
+        table_frame.place(x=420, y=100, width=700, height=200)
 
         scroll_y=ttk.Scrollbar(table_frame, orient=VERTICAL)
 

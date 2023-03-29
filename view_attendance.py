@@ -12,21 +12,21 @@ from glob import glob
 class Attendance_Calculation:
     def __init__(self, root):
         self.root=root
-        self.root.geometry("1280x720+0+0")
+        self.root.geometry("700x400+0+0")
         self.root.title("Attendance Calculation")
 
         self.var_subcode=StringVar()
 
         #Bg Image
         img=Image.open(r"D:\Projects\SDP\iter.png")
-        img=img.resize((1280,720),Image.ANTIALIAS)
+        img=img.resize((700,400),Image.ANTIALIAS)
         self.photoimg=ImageTk.PhotoImage(img)
 
         BgImage = Label(self.root, image=self.photoimg)
-        BgImage.place(x=0,y=0,width=1280,height=720)
+        BgImage.place(x=0,y=0,width=700,height=400)
 
         title = Label(BgImage, text="VIEW ATTENDANCE", font=("Times new roman", 25,"bold"),bg="white")
-        title.place(x=0,y=0,width=1280,height=45)
+        title.place(x=0,y=0,width=700,height=45)
 
         conn = mysql.connector.connect(host='localhost', username='root', password='Chiku@3037', database='attendance-system')
         cursor = conn.cursor()
@@ -36,10 +36,10 @@ class Attendance_Calculation:
 
         subcode_combo=ttk.Combobox(BgImage, values=subcode_li,textvariable=self.var_subcode,font=("times new roman",25,"bold"), state="readonly")
         subcode_combo.current(0)
-        subcode_combo.place(x=450,y=250,width=350,height=70)
+        subcode_combo.place(x=150,y=100,width=350,height=70)
 
         bt=Button(BgImage,text="VIEW ATTENDANCE",command=self.calculate_attendance,cursor="hand2",font=("times new roman",25,"bold"),bg="darkgreen",fg="white")
-        bt.place(x=450,y=350,width=350,height=70)
+        bt.place(x=150,y=200,width=350,height=70)
 
     def calculate_attendance(self): 
         Subject = self.var_subcode.get()

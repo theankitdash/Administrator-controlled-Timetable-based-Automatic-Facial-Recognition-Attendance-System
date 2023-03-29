@@ -7,7 +7,7 @@ import mysql.connector
 class Faculty_Registration:
     def __init__(self, root):
         self.root=root
-        self.root.geometry("1280x720+0+0")
+        self.root.geometry("1180x440+0+0")
         self.root.title("Faculty Details")
 
         self.var_Name=StringVar()
@@ -17,23 +17,15 @@ class Faculty_Registration:
         self.var_subCode2=StringVar()
 
 
-        #Bg Image
-        bg_img=Image.open(r"D:\Projects\SDP\iter.png")
-        bg_img=bg_img.resize((1280,720),Image.ANTIALIAS)
-        self.photobg_img=ImageTk.PhotoImage(bg_img)
+        title = Label(self.root, text="FACULTY DETAILS", font=("Times new roman", 25,"bold"),bg="white")
+        title.place(x=0,y=0,width=1180,height=40)
 
-        BgImage = Label(self.root, image=self.photobg_img)
-        BgImage.place(x=0,y=0,width=1280,height=720)
-
-        title = Label(BgImage, text="FACULTY DETAILS", font=("Times new roman", 25,"bold"),bg="white")
-        title.place(x=0,y=0,width=1280,height=45)
-
-        main_frame = Frame(BgImage, bd=2, bg="white")
-        main_frame.place(x=20,y=50,width=1240, height = 650)
+        main_frame = Frame(self.root, bd=2, bg="white")
+        main_frame.place(x=0,y=45,width=1180, height = 440)
 
         #Details Frame
         det_frame=LabelFrame(main_frame, bd=2, relief=RIDGE, text="Faculty Details", font=("times new roman",14,"bold"), bg="white")
-        det_frame.place(x=20, y=30, width=400, height=440)
+        det_frame.place(x=5, y=10, width=400, height=320)
 
         #Name
         Name_label=Label(det_frame,text="Name:", font=("times new roman", 14,"bold"),bg="white")
@@ -82,7 +74,7 @@ class Faculty_Registration:
 
         #Buttons
         Bt_frame=Frame(main_frame,bd=2,relief=RIDGE,bg="white")
-        Bt_frame.place(x=20, y=490, width=404,height=35)
+        Bt_frame.place(x=5, y=340, width=404,height=35)
         
         save_photo_bt=Button(Bt_frame,text="Save", command=self.add_data ,width=10,font=("times new roman", 12,"bold"),bg="white")
         save_photo_bt.grid(row=0,column=0)
@@ -98,7 +90,7 @@ class Faculty_Registration:
 
         #Details Fetch Frame
         Search_frame=LabelFrame(main_frame, bd=2, relief=RIDGE, text="SEARCH SYSTEM", font=("times new roman",14,"bold"), bg="white")
-        Search_frame.place(x=450, y=30, width=750, height=90)
+        Search_frame.place(x=420, y=10, width=750, height=90)
 
         #Search
         search_label=Label(Search_frame,text="Search by:", font=("times new roman", 14,"bold"), width=10,bg="white")
@@ -122,9 +114,8 @@ class Faculty_Registration:
 
         #Faculty details frame
         table_frame=Frame(main_frame, bd=2, bg="white", relief=RIDGE)
-        table_frame.place(x=450, y=130, width=750, height=400)
+        table_frame.place(x=420, y=110, width=750, height=270)
 
-        
         scroll_y=ttk.Scrollbar(table_frame, orient=VERTICAL)
 
         self.faculty_table=ttk.Treeview(table_frame, column=("name", "id", "email", "subcode1", "subcode2"), yscrollcommand=scroll_y.set)

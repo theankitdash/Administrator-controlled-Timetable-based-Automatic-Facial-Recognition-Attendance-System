@@ -20,24 +20,24 @@ url='http://192.168.137.200/capture'
 class Attendance_Registration:
     def __init__(self, root):
         self.root=root
-        self.root.geometry("1280x720+0+0")
+        self.root.geometry("700x400+0+0")
         self.root.title("Attendance Registration")
 
         self.var_roll=StringVar()
 
         #Bg Image
         img=Image.open(r"D:\Projects\SDP\iter.png")
-        img=img.resize((1280,720),Image.ANTIALIAS)
+        img=img.resize((700,400),Image.ANTIALIAS)
         self.photoimg=ImageTk.PhotoImage(img)
 
         BgImage = Label(self.root, image=self.photoimg)
-        BgImage.place(x=0,y=0,width=1280,height=720)
+        BgImage.place(x=0,y=0,width=700,height=400)
 
-        title = Label(BgImage, text="ATTENDANCE REGISTRATION", font=("Times new roman", 25,"bold"),bg="white")
-        title.place(x=0,y=0,width=1280,height=45)
+        title = Label(BgImage, text="ATTENDANCE REGISTRATION", font=("Times new roman", 20,"bold"),bg="white")
+        title.place(x=0,y=0,width=700,height=45)
 
-        bt=Button(BgImage,text="RECOGNIZE",command=self.FillAttendance,cursor="hand2",font=("times new roman",40,"bold"),bg="darkgreen",fg="white")
-        bt.place(x=450,y=270,width=400,height=150)
+        bt=Button(BgImage,text="RECOGNIZE",command=self.FillAttendance,cursor="hand2",font=("times new roman",30,"bold"),bg="darkgreen",fg="white")
+        bt.place(x=140,y=170,width=400,height=100)
 
     
     def FillAttendance(self):

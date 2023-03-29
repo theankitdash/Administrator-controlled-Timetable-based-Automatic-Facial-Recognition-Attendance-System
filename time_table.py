@@ -8,26 +8,18 @@ import mysql.connector
 class Time_Schedule:
     def __init__(self, root):
         self.root=root
-        self.root.geometry("1280x720+0+0")
+        self.root.geometry("1110x670+0+0")
         self.root.title("Time Schdeule")
 
         self.var_Sec=StringVar()
         self.var_branch=StringVar()
         self.var_Id=StringVar()
 
-        #Bg Image
-        img=Image.open(r"C:\Users\ankit\Desktop\New folder\itersoa.jpg")
-        img=img.resize((1280,720),Image.ANTIALIAS)
-        self.photoimg=ImageTk.PhotoImage(img)
+        title = Label(self.root, text="TIME TABLE", font=("Times new roman", 25,"bold"),bg="white")
+        title.place(x=0,y=0,width=1110,height=45)   
 
-        BgImage = Label(self.root, image=self.photoimg)
-        BgImage.place(x=0,y=0,width=1280,height=720)
-
-        title = Label(BgImage, text="TIME TABLE", font=("Times new roman", 25,"bold"),bg="white")
-        title.place(x=0,y=0,width=1280,height=45)   
-
-        main_frame = Frame(BgImage, bd=2, bg="white")
-        main_frame.place(x=20,y=50,width=1240, height = 650)
+        main_frame = Frame(self.root, bd=2, bg="white")
+        main_frame.place(x=0,y=45,width=1110, height = 670)
 
         # get branch and section list from the database
         conn = mysql.connector.connect(host='localhost', username='root', password='Chiku@3037', database='attendance-system')
@@ -39,23 +31,23 @@ class Time_Schedule:
         br_li.insert(0, 'Select Branch')
         sec_li.insert(0, 'Select Section')
 
-        label_br_sec=Label(main_frame,text="Select Branch and Section: ", font=("times new roman", 14,"bold"),bg="white")
+        label_br_sec=Label(main_frame,text="Select Branch and Section: ", font=("times new roman", 16,"bold"),bg="white")
         label_br_sec.grid(row=3,column=0, padx=10, pady=10, sticky=W)
 
-        branch_combo=ttk.Combobox(main_frame, values=br_li,textvariable=self.var_branch,width=20,font=("times new roman",13,"bold"), state="readonly")
+        branch_combo=ttk.Combobox(main_frame, values=br_li,textvariable=self.var_branch,width=20,font=("times new roman",16,"bold"), state="readonly")
         branch_combo.current(0)
         branch_combo.grid(row=3, column=1, padx=10, pady=10, sticky=W)
 
-        sec_combo=ttk.Combobox(main_frame, values=sec_li,textvariable=self.var_Sec,width=20,font=("times new roman",13,"bold"), state="readonly")
+        sec_combo=ttk.Combobox(main_frame, values=sec_li,textvariable=self.var_Sec,width=20,font=("times new roman",16,"bold"), state="readonly")
         sec_combo.current(0)
         sec_combo.grid(row=3, column=2, padx=10, pady=10, sticky=W)
 
         #TimeTable frame
         table = Frame(main_frame, bd=2, bg="white")
-        table.place(x=10, y=75, width=1200, height=900)
+        table.place(x=0, y=55, width=1100, height=600)
 
         tt = Frame(table, bg="white")
-        tt.place(x=10, y=10, width=1240, height=650)
+        tt.place(x=0, y=5, width=1100, height=600)
 
         days = 6
         day_names = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
@@ -95,7 +87,7 @@ class Time_Schedule:
                         b[i][j].update() 
 
         #Button    
-        OK_bt=Button(main_frame,text="OK",command=update_data, width=10,font=("times new roman", 12,"bold"),bg="white")
+        OK_bt=Button(main_frame,text="OK",command=update_data, width=10,font=("times new roman", 16,"bold"),bg="white")
         OK_bt.grid(row=3,column=3, padx=10, pady=10)  
 
         def change_subject(d,p):  
