@@ -15,7 +15,7 @@ import urllib.request
 trainedimages = ("classifier.xml")
 face_cascade = 'haarcascade_frontalface_default.xml'
 attendance_path = "D:\\Projects\\SDP\\Subjects"
-url='http://192.168.137.200/capture'
+url='http://192.168.137.72/capture'
 
 class Attendance_Registration:
     def __init__(self, root):
