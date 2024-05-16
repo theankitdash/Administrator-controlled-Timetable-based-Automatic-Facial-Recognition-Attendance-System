@@ -32,8 +32,6 @@ class Attendance_Registration:
         title = Label(BgImage, text="ATTENDANCE REGISTRATION", font=("Times new roman", 25,"bold"),bg="white")
         title.place(x=0,y=0,width=1280,height=45)
 
-    
-
         bt=Button(BgImage,text="RECOGNIZE",command=self.FillAttendance,cursor="hand2",font=("times new roman",18,"bold"),bg="darkgreen",fg="white")
         bt.place(x=500,y=270,width=250,height=50)
 
