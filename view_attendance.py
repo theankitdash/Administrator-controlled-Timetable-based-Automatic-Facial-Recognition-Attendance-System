@@ -19,7 +19,7 @@ class Attendance_Calculation:
 
         #Bg Image
         img=Image.open(r"D:\Projects\SDP\iter.png")
-        img=img.resize((700,400),Image.ANTIALIAS)
+        img=img.resize((700,400),Image.Resampling.LANCZOS)
         self.photoimg=ImageTk.PhotoImage(img)
 
         BgImage = Label(self.root, image=self.photoimg)
@@ -28,7 +28,7 @@ class Attendance_Calculation:
         title = Label(BgImage, text="VIEW ATTENDANCE", font=("Times new roman", 25,"bold"),bg="white")
         title.place(x=0,y=0,width=700,height=45)
 
-        conn = mysql.connector.connect(host='localhost', username='root', password='Chiku@3037', database='attendance-system')
+        conn = mysql.connector.connect(host='localhost', username='root', password='Chiku@4009', database='attendance-system')
         cursor = conn.cursor()
         cursor.execute("select distinct SUBCODE FROM schedule")
         subcode_li = [row[0] for row in cursor]

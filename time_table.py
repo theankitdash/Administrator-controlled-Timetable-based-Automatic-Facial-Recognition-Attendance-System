@@ -22,7 +22,7 @@ class Time_Schedule:
         main_frame.place(x=0,y=45,width=1110, height = 670)
 
         # get branch and section list from the database
-        conn = mysql.connector.connect(host='localhost', username='root', password='Chiku@3037', database='attendance-system')
+        conn = mysql.connector.connect(host='localhost', username='root', password='Chiku@4009', database='attendance-system')
         cursor = conn.cursor()
         cursor.execute("SELECT DISTINCT BRANCH, SECTION FROM STUDENT")
         results = cursor.fetchall()
@@ -71,7 +71,7 @@ class Time_Schedule:
             b = [[None for j in range(periods)] for i in range(days)]      
             for i in range(days):
                 for j in range(periods):
-                    conn = mysql.connector.connect(host='localhost', username='root', password='Chiku@3037', database='attendance-system')
+                    conn = mysql.connector.connect(host='localhost', username='root', password='Chiku@4009', database='attendance-system')
                     cursor = conn.cursor()
                     cursor.execute(f"SELECT SUBCODE, FID FROM SCHEDULE\
                         WHERE ID='{branch+'-'+section+'-'+str((i+1)*10+(j+1))}'")
@@ -108,7 +108,7 @@ class Time_Schedule:
             self.tt.column("faculty", width=80)
             self.tt.column("subcode", width=100)
 
-            conn = mysql.connector.connect(host='localhost', username='root', password='Chiku@3037', database='attendance-system')
+            conn = mysql.connector.connect(host='localhost', username='root', password='Chiku@4009', database='attendance-system')
             cursor = conn.cursor()
             cursor.execute("SELECT FACULTY.ID, FACULTY.SUBCODE_1, FACULTY.SUBCODE_2, SUBJECTS.SUBCODE\
             FROM FACULTY, SUBJECTS\
@@ -129,7 +129,7 @@ class Time_Schedule:
             section=self.var_Sec.get()
 
 
-            conn = mysql.connector.connect(host='localhost', username='root', password='Chiku@3037', database='attendance-system')
+            conn = mysql.connector.connect(host='localhost', username='root', password='Chiku@4009', database='attendance-system')
             cursor = conn.cursor()
             cursor.execute("Select ID from Schedule")
             result=cursor.fetchall()

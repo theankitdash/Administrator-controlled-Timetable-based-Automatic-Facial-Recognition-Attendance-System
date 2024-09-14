@@ -16,7 +16,7 @@ class Attendance_System:
 
         #Bg Image
         img=Image.open(r"D:\Projects\SDP\iter.png")
-        img=img.resize((1080,720),Image.ANTIALIAS)
+        img=img.resize((1080,720),Image.Resampling.LANCZOS)
         self.photoimg=ImageTk.PhotoImage(img)
 
         BgImage = Label(self.root, image=self.photoimg)
@@ -27,7 +27,7 @@ class Attendance_System:
         
         #Student Button
         Student_Reg = Image.open(r"D:\Projects\SDP\Student-Reg.png")
-        Student_Reg = Student_Reg.resize((250,250), Image.ANTIALIAS)
+        Student_Reg = Student_Reg.resize((250,250), Image.Resampling.LANCZOS)
         self.photoStudent_Reg=ImageTk.PhotoImage(Student_Reg)
 
         bt = Button(BgImage,image=self.photoStudent_Reg, command=self.student_details, cursor="hand2")
@@ -38,7 +38,7 @@ class Attendance_System:
 
         #Faculty Button
         Faculty_Reg = Image.open(r"D:\Projects\SDP\teacher.png")
-        Faculty_Reg = Faculty_Reg.resize((250,250), Image.ANTIALIAS)
+        Faculty_Reg = Faculty_Reg.resize((250,250), Image.Resampling.LANCZOS)
         self.photoFaculty_Reg=ImageTk.PhotoImage(Faculty_Reg)
 
         bt = Button(BgImage,image=self.photoFaculty_Reg, command=self.faculty_details, cursor="hand2")
@@ -49,7 +49,7 @@ class Attendance_System:
 
         #Subject Button
         Subject_Reg = Image.open(r"D:\Projects\SDP\subject.jpg")
-        Subject_Reg = Subject_Reg.resize((250,250), Image.ANTIALIAS)
+        Subject_Reg = Subject_Reg.resize((250,250), Image.Resampling.LANCZOS)
         self.photoSubject_Reg=ImageTk.PhotoImage(Subject_Reg)
 
         bt = Button(BgImage,image=self.photoSubject_Reg, command=self.subject_details, cursor="hand2")
@@ -60,7 +60,7 @@ class Attendance_System:
 
         #Time Table
         TimeTb = Image.open(r"D:\Projects\SDP\timetable.jpg")
-        TimeTb = TimeTb.resize((250,250), Image.ANTIALIAS)
+        TimeTb = TimeTb.resize((250,250), Image.Resampling.LANCZOS)
         self.photoTimeTb=ImageTk.PhotoImage(TimeTb)
 
         TimeTb_bt = Button(BgImage,image=self.photoTimeTb, command=self.time_table,cursor="hand2")
@@ -72,7 +72,7 @@ class Attendance_System:
 
         #Attendance Registration
         Attendance_Det = Image.open(r"D:\Projects\SDP\take-att.jpg")
-        Attendance_Det = Attendance_Det.resize((250,250), Image.ANTIALIAS)
+        Attendance_Det = Attendance_Det.resize((250,250), Image.Resampling.LANCZOS)
         self.photoAttendance_Det=ImageTk.PhotoImage(Attendance_Det)
 
         bt = Button(BgImage,image=self.photoAttendance_Det, command=self.recognize_attendance,cursor="hand2")
@@ -83,7 +83,7 @@ class Attendance_System:
 
         #Calculate Attendance
         Attendance_cal = Image.open(r"D:\Projects\SDP\atten.jpg")
-        Attendance_cal = Attendance_cal.resize((250,250), Image.ANTIALIAS)
+        Attendance_cal = Attendance_cal.resize((250,250), Image.Resampling.LANCZOS)
         self.photoAttendance_cal=ImageTk.PhotoImage(Attendance_cal)
 
         bt = Button(BgImage,image=self.photoAttendance_cal, command=self.attendance_calculate,cursor="hand2")

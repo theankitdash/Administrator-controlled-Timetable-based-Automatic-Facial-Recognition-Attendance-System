@@ -23,7 +23,7 @@ class Attendance_Registration:
 
         #Bg Image
         img=Image.open(r"D:\Projects\SDP\itersoa.jpg")
-        img=img.resize((1280,720),Image.ANTIALIAS)
+        img=img.resize((1280,720),Image.Resampling.LANCZOS)
         self.photoimg=ImageTk.PhotoImage(img)
 
         BgImage = Label(self.root, image=self.photoimg)
@@ -100,7 +100,7 @@ class Attendance_Registration:
             day_number = datetime.datetime.fromtimestamp(ts).strftime("%w")
             weekday = int(day_number)
 
-            conn = mysql.connector.connect(host='localhost', username='root', password='Chiku@3037', database='attendance-system')
+            conn = mysql.connector.connect(host='localhost', username='root', password='Chiku@4009', database='attendance-system')
             cursor = conn.cursor()
             cursor.execute("select distinct Branch FROM student where Roll_No = %s", (str_id,))
             result = cursor.fetchone()

@@ -50,7 +50,7 @@ class Faculty_Registration:
 
     
         # get subject code list from the database
-        conn = mysql.connector.connect(host='localhost', username='root', password='Chiku@3037', database='attendance-system')
+        conn = mysql.connector.connect(host='localhost', username='root', password='Chiku@4009', database='attendance-system')
         cursor = conn.cursor()
         cursor.execute("select SUBCODE FROM subjects")
         subcode_li = [row[0] for row in cursor]
@@ -148,7 +148,7 @@ class Faculty_Registration:
             messagebox.showerror("Error", "All fields are required", parent=self.root)
         else:
             try:
-                conn = mysql.connector.connect(host='localhost', username='root', password='Chiku@3037', database='attendance-system')
+                conn = mysql.connector.connect(host='localhost', username='root', password='Chiku@4009', database='attendance-system')
                 my_cursor = conn.cursor()  
                 my_cursor.execute("insert into faculty values(%s,%s,%s,%s,%s)", (
                                                             self.var_Name.get(),
@@ -165,7 +165,7 @@ class Faculty_Registration:
                 messagebox.showerror("Error",f"Due To:{str(es)}")   
 
     def fetch_data(self):
-        conn = mysql.connector.connect(host='localhost', username='root', password='Chiku@3037', database='attendance-system')
+        conn = mysql.connector.connect(host='localhost', username='root', password='Chiku@4009', database='attendance-system')
         my_cursor = conn.cursor()  
         my_cursor.execute("Select * from faculty")
         data=my_cursor.fetchall()
@@ -197,7 +197,7 @@ class Faculty_Registration:
             try:
                 Update=messagebox.askyesno("Update", "Do you want to update the details?")  
                 if Update>0:
-                    conn = mysql.connector.connect(host='localhost', username='root', password='Chiku@3037', database='attendance-system')
+                    conn = mysql.connector.connect(host='localhost', username='root', password='Chiku@4009', database='attendance-system')
                     my_cursor = conn.cursor() 
                     my_cursor.execute("Update faculty set Name=%s, Email=%s, SUBCODE_1=%s, SUBCODE_2=%s where Id=%s", (
                                                                                                                     self.var_Name.get(),
@@ -224,7 +224,7 @@ class Faculty_Registration:
             try:
                 delete=messagebox.askyesno("Delete", "Do you want to delete the details?")   
                 if delete>0:
-                    conn = mysql.connector.connect(host='localhost', username='root', password='Chiku@3037', database='attendance-system')
+                    conn = mysql.connector.connect(host='localhost', username='root', password='Chiku@4009', database='attendance-system')
                     my_cursor = conn.cursor() 
                     sql="delete from faculty where Id=%s"
                     val=(self.var_Id.get(),)
@@ -253,7 +253,7 @@ class Faculty_Registration:
             messagebox.showerror("Error","Please select option")   
         else:
             try:
-                conn = mysql.connector.connect(host='localhost', username='root', password='Chiku@3037', database='attendance-system')
+                conn = mysql.connector.connect(host='localhost', username='root', password='Chiku@4009', database='attendance-system')
                 my_cursor = conn.cursor() 
                 my_cursor.execute("select * from faculty where " +str(self.var_com_search.get())+" LIKE '%"+str(self.var_search.get())+"%'")
                 rows=my_cursor.fetchall()
